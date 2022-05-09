@@ -6,7 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Home from '../../screens/Home/Home';
 import Favorites from '../../screens/Favorites/Favorites';
 import ReadLater from '../../screens/ReadLater/ReadLater';
-import Recommended from '../../screens/Recommended/Recommended';
+import Search from '../../screens/Search/Search';
 import bottomTabNavigatorStyle from './bottomTabNavigatorStyle';
 import { THEME_SECONDARY } from '../../utils/constants/colors';
 
@@ -28,8 +28,8 @@ const BottomTabNavigator = () => {
               return <AntDesign name='hearto' size={size} color={focused ? THEME_SECONDARY : color} />;
             case 'ReadLater':
               return <AntDesign name='clockcircleo' size={size} color={focused ? THEME_SECONDARY : color} />;
-            case 'Recommended':
-              return <AntDesign name='checkcircleo' size={size} color={focused ? THEME_SECONDARY : color} />;
+            case 'Search':
+              return <AntDesign name='search1' size={size} color={focused ? THEME_SECONDARY : color} />;
           }
 
           return <AntDesign name={iconName} size={size} color={focused ? THEME_SECONDARY : color} />;
@@ -52,15 +52,15 @@ const BottomTabNavigator = () => {
               }}
         />
         <Tab.Screen
-            name='ReadLater'
-            component={ReadLater}
+            name='Search'
+            component={Search}
             options={{ 
               header: () => null,
               }}
         />
         <Tab.Screen
-            name='Recommended'
-            component={Recommended}
+            name='ReadLater'
+            component={ReadLater}
             options={{ 
               header: () => null,
               }}
