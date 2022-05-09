@@ -6,6 +6,7 @@ const FONT_SIZE = 15
 export default StyleSheet.create({
     loginBody: {
       flex: 1,
+      backgroundColor: '#fff',
       display: 'flex',
       justifyContent: 'space-between'
     },

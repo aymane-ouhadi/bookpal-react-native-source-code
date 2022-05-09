@@ -1,0 +1,72 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import React from 'react'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
+import Home from '../../screens/Home/Home';
+import Favorites from '../../screens/Favorites/Favorites';
+import ReadLater from '../../screens/ReadLater/ReadLater';
+import Recommended from '../../screens/Recommended/Recommended';
+import bottomTabNavigatorStyle from './bottomTabNavigatorStyle';
+import { THEME_SECONDARY } from '../../utils/constants/colors';
+
+const Tab = createBottomTabNavigator();
+
+const BottomTabNavigator = () => {
+  return (
+    <Tab.Navigator 
+      screenOptions={({route}) => ({ 
+        tabBarStyle: bottomTabNavigatorStyle.bottomTab,
+        tabBarShowLabel: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          switch(route.name){
+            case 'Home':
+              return <AntDesign name='home' size={size} color={focused ? THEME_SECONDARY : color} />;
+            case 'Favorites':
+              return <AntDesign name='hearto' size={size} color={focused ? THEME_SECONDARY : color} />;
+            case 'ReadLater':
+              return <AntDesign name='clockcircleo' size={size} color={focused ? THEME_SECONDARY : color} />;
+            case 'Recommended':
+              return <AntDesign name='checkcircleo' size={size} color={focused ? THEME_SECONDARY : color} />;
+          }
+
+          return <AntDesign name={iconName} size={size} color={focused ? THEME_SECONDARY : color} />;
+
+        },
+      })}
+    >
+        <Tab.Screen
+            name='Home'
+            component={Home}
+            options={{ 
+              header: () => null,
+              }}
+        />
+        <Tab.Screen
+            name='Favorites'
+            component={Favorites}
+            options={{ 
+              header: () => null,
+              }}
+        />
+        <Tab.Screen
+            name='ReadLater'
+            component={ReadLater}
+            options={{ 
+              header: () => null,
+              }}
+        />
+        <Tab.Screen
+            name='Recommended'
+            component={Recommended}
+            options={{ 
+              header: () => null,
+              }}
+        />
+    </Tab.Navigator>
+  )
+}
+
+export default BottomTabNavigator

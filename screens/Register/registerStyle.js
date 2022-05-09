@@ -9,6 +9,7 @@ export default StyleSheet.create({
     loginBody: {
       flex: 1,
       display: 'flex',
+      backgroundColor: '#fff',
       justifyContent: 'space-between'
     },
     loginSection: {
