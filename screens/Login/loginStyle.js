@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
+import { TEXT_PRIMARY } from '../../utils/constants/colors'
 
-const FONT_SIZE = 18
-const LOGIN_BTN_SIZE = 70
+const FONT_SIZE = 15
 
 export default StyleSheet.create({
     loginBody: {
@@ -9,16 +9,18 @@ export default StyleSheet.create({
       display: 'flex',
       justifyContent: 'space-between'
     },
-    loginTopWrapper: {
-        width: '100%',
-        height: '10%',
-        backgroundColor: '#3f2e6d'
+    loginSection: {
+    },
+    loginWelcomeWrapper: {
+        alignSelf: 'center',
+        marginBottom: 20
     },
     loginWelcome: {
-
+        fontSize: 35,
+        color: TEXT_PRIMARY
     },
     loginFormWrapper: {
-        width: '70%',
+        width: '80%',
         padding: 10,
         backgroundColor: 'white',
         elevation: 10,
@@ -33,24 +35,11 @@ export default StyleSheet.create({
     },
     loginIcon: {
         fontSize: FONT_SIZE,
-        marginRight: 10
+        marginRight: 10,
     },
     loginTextInput: {
         fontSize: FONT_SIZE,
-        width: '87%',
-    },
-    loginBtn: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        // backgroundColor: '#00ffff',
-        width: LOGIN_BTN_SIZE,
-        height: LOGIN_BTN_SIZE,
-        borderRadius: LOGIN_BTN_SIZE / 2,
-    },
-    loginBottomWrapper: {
-        width: '100%',
-        height: '10%',
-        backgroundColor: '#3f2e6d',
+        width: '80%',
+        // backgroundColor: '#00ffff'
     },
   })
