@@ -28,19 +28,23 @@ export default StyleSheet.create({
     smallBookCardMiddle: {
         flex: 1,
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
         // backgroundColor: '#777'
     },
     smallBookCardMiddleTop: {
+    //   flex: 1,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
+    //   backgroundColor: '#aaa'
     },
     bookAuthor: {
+        // flex: 1,
         color: TEXT_PRIMARY
     },
     bookTitle: {
+        // flex: 1,
         marginRight: 15,
         fontSize: 17,
         color: TEXT_PRIMARY,

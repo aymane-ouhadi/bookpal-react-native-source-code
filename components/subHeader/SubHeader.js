@@ -3,7 +3,7 @@ import React from 'react'
 import subHeaderStyle from './subHeaderStyle'
 import { Fonts } from '../../utils/styles/fonts'
 
-const SubHeader = ({subtitle}) => {
+const SubHeader = ({subtitle, seeAll}) => {
   return (
     <View style={subHeaderStyle.subTitleWrapper}>
         <View>
@@ -19,7 +19,7 @@ const SubHeader = ({subtitle}) => {
                 Fonts.PoppinsSemiBold,
                 subHeaderStyle.seeAll
             ]}>
-            See All
+            {seeAll && 'See All'}
             </Text>
         </View>
     </View>

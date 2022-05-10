@@ -13,7 +13,7 @@ const renderItem = ({item}) => <SmallBookCard book={item}/>
 const AlreadyRead = () => {
   return (
     <View>
-      <SubHeader subtitle={'Already Read'}/>
+      <SubHeader subtitle={'Already Read'} seeAll/>
       <View>
         <FlatList 
           data={testBooks}

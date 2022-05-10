@@ -4,6 +4,7 @@ import recommendedBookCardStyle from './recommendedBookCardStyle'
 import { Fonts } from '../../utils/styles/fonts'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { TEXT_REVIEW } from '../../utils/constants/colors'
+import cutText from '../../utils/custom/cutText'
 
 const RecommendedBookCard = ({book}) => {
   return (
@@ -20,7 +21,7 @@ const RecommendedBookCard = ({book}) => {
             recommendedBookCardStyle.bookTitle
           ]}
           >
-            {book.volumeInfo.title}
+            {cutText(book.volumeInfo.title, 14)}
           </Text>
       </View>
       <View style={recommendedBookCardStyle.bookInfoWrapper}>
@@ -28,7 +29,7 @@ const RecommendedBookCard = ({book}) => {
             <Text style={[
               Fonts.PoppinsRegular,
               recommendedBookCardStyle.bookAuthor
-            ]}>by {book.volumeInfo.authors[0]}</Text>
+            ]}>by {cutText(book.volumeInfo.authors[0], 9)}</Text>
           </View>
           <View style={recommendedBookCardStyle.bookAvgRatingWrapper}>
             <AntDesign

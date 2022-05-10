@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { Text, ScrollView } from 'react-native'
 import React from 'react'
 
 import Header from '../../components/header/Header'
@@ -9,11 +9,11 @@ import homeStyle from './homeStyle'
 
 const Home = () => {
   return (
-    <View style={homeStyle.body}>
+    <ScrollView style={homeStyle.body}>
       <Header />
       <BooksForYou />
       <AlreadyRead />
-    </View>
+    </ScrollView>
   )
 }
 

@@ -10,7 +10,7 @@ const renderItem = ({item}) => <RecommendedBookCard book={item}/>
 const BooksForYou = () => {
   return (
     <View>
-      <SubHeader subtitle={'Books For You'}/>
+      <SubHeader subtitle={'Books For You'} seeAll/>
       <View>
         <FlatList 
           data={testBooks}

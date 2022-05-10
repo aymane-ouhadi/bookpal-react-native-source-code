@@ -1,9 +1,11 @@
 import { View, Text, Image } from 'react-native'
 import React from 'react'
 
-import smallBookCardStyle from './smallBookCardStyle'
 import { Fonts } from '../../utils/styles/fonts'
 import Category from '../category/Category'
+import cutText from '../../utils/custom/cutText'
+
+import smallBookCardStyle from './smallBookCardStyle'
 
 const SmallBookCard = ({book}) => {
   return (
@@ -22,27 +24,23 @@ const SmallBookCard = ({book}) => {
             Fonts.PoppinsSemiBold,
             smallBookCardStyle.bookTitle
           ]}>
-            {book.volumeInfo.title}
+            {cutText(book.volumeInfo.title, 10)}
           </Text>
           <Text style={[
             Fonts.PoppinsRegular,
             smallBookCardStyle.bookAuthor
           ]}>
-            by {book.volumeInfo.authors[0]}
+            by {cutText(book.volumeInfo.authors[0], 7)}
           </Text>
         </View>
-        <Category categoryName={book.volumeInfo.categories[0]}/>
+        <View>
+          <Category categoryName={book.volumeInfo.categories[0]}/>
+        </View>
         <Text style={[
           Fonts.PoppinsRegular,
           smallBookCardStyle.bookDescription
         ]}>
-          {
-            book.volumeInfo.description > 90 
-            ?
-            book.volumeInfo.description
-            :
-            book.volumeInfo.description.substring(0, 90) + '...'
-          }
+          {cutText(book.volumeInfo.description, 105)}
         </Text>
       </View>
       {/* <View style={smallBookCardStyle.smallBookCardRight}>
