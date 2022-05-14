@@ -19,7 +19,7 @@ const AlreadyRead = () => {
           data={testBooks}
           renderItem={renderItem}
           keyExtractor = { item => item.id + Math.floor(Math.random() * (100 - 1 + 1) + 1)}
-          scrollEnabled={true}
+          // scrollEnabled={true}
         />
       </View>
     </View>

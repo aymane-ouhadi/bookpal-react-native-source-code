@@ -1,53 +1,48 @@
 export const testBooks = Array(3).fill({
-    "kind": "books#volume",
-      "id": "bYipLUB-ilcC",
-      "etag": "HHy3nT5KVs0",
-      "selfLink": "https://www.googleapis.com/books/v1/volumes/bYipLUB-ilcC",
+  "kind": "books#volume",
+      "id": "JHEkAQAAMAAJ",
+      "etag": "65x7jt+K5kM",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/JHEkAQAAMAAJ",
       "volumeInfo": {
-        "title": "The Hunting Wind",
-        "subtitle": "An Alex McKnight Mystery",
+        "title": "Harry Potter and the Deathly Hallows",
         "authors": [
-          "Steve Hamilton"
+          "J. K. Rowling"
         ],
-        "publisher": "Macmillan",
-        "publishedDate": "2002-04-15",
-        "description": "Alex McKnight finds himself in over his head when he and his occasional partner, Leon Prudell, agree to help Randy Wilkins, his old minor league teammate, find Randy's old flame, a woman he had walked away from nearly thirty years before. By the author of A Cold Day in Paradise. Reprint.",
+        "publisher": "Arthur a Levine",
+        "publishedDate": "2007",
+        "description": "The seventh and final book of the blockbuster Harry Potter series follows the wizard's last year at Hogwarts School of Witchcraft and Wizardry. 12,000,000 first printing.",
         "industryIdentifiers": [
           {
-            "type": "ISBN_10",
-            "identifier": "0312980264"
-          },
-          {
-            "type": "ISBN_13",
-            "identifier": "9780312980269"
+            "type": "OTHER",
+            "identifier": "UOM:39076002651854"
           }
         ],
         "readingModes": {
           "text": false,
           "image": false
         },
-        "pageCount": 352,
+        "pageCount": 759,
         "printType": "BOOK",
         "categories": [
-          "Fiction"
+          "Juvenile Fiction"
         ],
-        "averageRating": 3.5,
-        "ratingsCount": 8,
+        "averageRating": 4.5,
+        "ratingsCount": 3449,
         "maturityRating": "NOT_MATURE",
         "allowAnonLogging": false,
-        "contentVersion": "3.3.4.0.preview.0",
+        "contentVersion": "0.1.1.0.preview.0",
         "panelizationSummary": {
           "containsEpubBubbles": false,
           "containsImageBubbles": false
         },
         "imageLinks": {
-          "smallThumbnail": "http://books.google.com/books/content?id=bYipLUB-ilcC&printsec=frontcover&img=1&zoom=5&source=gbs_api",
-          "thumbnail": "http://books.google.com/books/content?id=bYipLUB-ilcC&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          "smallThumbnail": "http://books.google.com/books/content?id=JHEkAQAAMAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=JHEkAQAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
         },
         "language": "en",
-        "previewLink": "http://books.google.com/books?id=bYipLUB-ilcC&dq=isbn:0312980267&hl=&cd=1&source=gbs_api",
-        "infoLink": "http://books.google.com/books?id=bYipLUB-ilcC&dq=isbn:0312980267&hl=&source=gbs_api",
-        "canonicalVolumeLink": "https://books.google.com/books/about/The_Hunting_Wind.html?hl=&id=bYipLUB-ilcC"
+        "previewLink": "http://books.google.com/books?id=JHEkAQAAMAAJ&dq=isbn:0545010225&hl=&cd=1&source=gbs_api",
+        "infoLink": "http://books.google.com/books?id=JHEkAQAAMAAJ&dq=isbn:0545010225&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Harry_Potter_and_the_Deathly_Hallows.html?hl=&id=JHEkAQAAMAAJ"
       },
       "saleInfo": {
         "country": "MA",
@@ -64,13 +59,13 @@ export const testBooks = Array(3).fill({
           "isAvailable": false
         },
         "pdf": {
-          "isAvailable": true
+          "isAvailable": false
         },
-        "webReaderLink": "http://play.google.com/books/reader?id=bYipLUB-ilcC&hl=&printsec=frontcover&source=gbs_api",
+        "webReaderLink": "http://play.google.com/books/reader?id=JHEkAQAAMAAJ&hl=&printsec=frontcover&source=gbs_api",
         "accessViewStatus": "NONE",
         "quoteSharingAllowed": false
       },
       "searchInfo": {
-        "textSnippet": "Alex McKnight finds himself in over his head when he and his occasional partner, Leon Prudell, agree to help Randy Wilkins, his old minor league teammate, find Randy's old flame, a woman he had walked away from nearly thirty years before."
+        "textSnippet": "The seventh and final book of the blockbuster Harry Potter series follows the wizard's last year at Hogwarts School of Witchcraft and Wizardry. 12,000,000 first printing."
       }
 })

@@ -28,7 +28,7 @@ const _content_translate_y = new Value(height)
 const _content_opacity = new Value(0)
 
 
-const SearchBar = () => {
+const SearchBar = ({isFetching}) => {
   
   //Setting the ref
   const textInputRef = useRef({})
@@ -53,22 +53,22 @@ const SearchBar = () => {
       easing: EasingNode.inOut(EasingNode.ease)
     }
 
-    const content_translate_y_config = {
-      duration: 200,
-      toValue: 0,
-      easing: EasingNode.inOut(EasingNode.ease)
-    }
+    // const content_translate_y_config = {
+    //   duration: 200,
+    //   toValue: 0,
+    //   easing: EasingNode.inOut(EasingNode.ease)
+    // }
 
-    const content_opacity_config = {
-      duration: 200,
-      toValue: 1,
-      easing: EasingNode.inOut(EasingNode.ease)
-    }
+    // const content_opacity_config = {
+    //   duration: 200,
+    //   toValue: 1,
+    //   easing: EasingNode.inOut(EasingNode.ease)
+    // }
 
     timing(_input_box_translate_x, input_box_translate_x_config).start()
     timing(_back_button_opacity, back_button_opacity_config).start()
-    timing(_content_translate_y, content_translate_y_config).start()
-    timing(_content_opacity, content_opacity_config).start()
+    // timing(_content_translate_y, content_translate_y_config).start()
+    // timing(_content_opacity, content_opacity_config).start()
 
     if(textInputRef.current.focus()) textInputRef.current.focus()
   }
@@ -105,8 +105,17 @@ const SearchBar = () => {
     timing(_content_translate_y, content_translate_y_config).start()
     timing(_content_opacity, content_opacity_config).start()
 
-    
+    if(textInputRef.current.blur()) textInputRef.current.blur()
   }
+  //Handling text change
+  const handleTextChange = (value) => {
+    setInput(value)
+    if(value){
+      isFetching(true)
+      setTimeout(() => isFetching(false), 1000)
+    }
+  }
+    
 
   return (
     <>
@@ -144,7 +153,7 @@ const SearchBar = () => {
                 placeholder='Search for books here...'
                 clearButtonMode='always'
                 value={input}
-                onChangeText={(value) => setInput(value)}
+                onChangeText={(value) => {handleTextChange(value)}}
                 style={[Fonts.PoppinsRegular, searchBarStyle.input]}
                 ref={textInputRef}
               />
@@ -152,7 +161,7 @@ const SearchBar = () => {
           </View>
         </View>
       </View>
-      <Animated.View style={[
+      {/* <Animated.View style={[
         searchBarStyle.content, 
         {
           opacity: _content_opacity,
@@ -162,12 +171,10 @@ const SearchBar = () => {
         }
       ]}>
         <View style={searchBarStyle.contentInner}>
-          {/* <View style={searchBarStyle.separator} /> */}
           {
             input === ''
             ?
               <View style={searchBarStyle.imagePlaceholderContainer}> 
-                  {/* <Image source={require('')} style={searchBarStyle.imagePlaceholder}/> */}
                   <Text style={searchBarStyle.imagePlaceholderText}>Enter the name of the book</Text>
               </View>
             :
@@ -177,7 +184,7 @@ const SearchBar = () => {
           }
         </View>
 
-      </Animated.View>
+      </Animated.View> */}
     </>
   )
 }

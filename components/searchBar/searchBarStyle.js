@@ -11,6 +11,7 @@ const HEIGHT = 60
 export default StyleSheet.create({
     body: {
         zIndex: 1000,
+        // backgroundColor: '#ddd'
     },
     header: {
         height: HEIGHT,
@@ -53,7 +54,7 @@ export default StyleSheet.create({
         width: '100%',
         height: height,
         zIndex: 999,
-        // backgroundColor: '#ddd'
+        // backgroundColor: '#444'
     },
     contentInner: {
         flex: 1,
