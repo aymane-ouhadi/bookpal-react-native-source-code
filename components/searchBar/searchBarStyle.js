@@ -11,7 +11,8 @@ const HEIGHT = 60
 export default StyleSheet.create({
     body: {
         zIndex: 1000,
-        // backgroundColor: '#ddd'
+        // paddingHorizontal: 20,
+        // backgroundColor: '#fff'
     },
     header: {
         height: HEIGHT,

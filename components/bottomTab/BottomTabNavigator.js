@@ -9,6 +9,8 @@ import ReadLater from '../../screens/ReadLater/ReadLater';
 import Search from '../../screens/Search/Search';
 import bottomTabNavigatorStyle from './bottomTabNavigatorStyle';
 import { THEME_SECONDARY } from '../../utils/constants/colors';
+import Header from '../header/Header';
+import SearchBar from '../searchBar/SearchBar';
 
 const Tab = createBottomTabNavigator();
 
@@ -38,32 +40,32 @@ const BottomTabNavigator = () => {
       })}
     >
         <Tab.Screen
-            name='Home'
-            component={Home}
-            options={{ 
-              header: () => null,
-              }}
+          name='Home'
+          component={Home}
+          options={{ 
+            header: () => <Header/>,
+          }}
+      />
+        <Tab.Screen
+          name='Favorites'
+          component={Favorites}
+          options={{ 
+            header: () => <Header/>,
+          }}
         />
         <Tab.Screen
-            name='Favorites'
-            component={Favorites}
-            options={{ 
-              header: () => null,
-              }}
+          name='Search'
+          component={Search}
+          options={{ 
+            header: () => null,
+          }}
         />
         <Tab.Screen
-            name='Search'
-            component={Search}
-            options={{ 
-              header: () => null,
-              }}
-        />
-        <Tab.Screen
-            name='ReadLater'
-            component={ReadLater}
-            options={{ 
-              header: () => null,
-              }}
+          name='ReadLater'
+          component={ReadLater}
+          options={{ 
+            header: () => <Header/>,
+          }}
         />
     </Tab.Navigator>
   )

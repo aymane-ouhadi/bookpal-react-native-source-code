@@ -13,7 +13,6 @@ const renderItem = ({item}) => <SmallBookCard book={item}/>
 const Favorites = () => {
   return (
     <View style={favoritesStyle.body}>
-      <Header />
       <SubHeader subtitle={'Favorites'}/>
       <FlatList
         data={testBooks}

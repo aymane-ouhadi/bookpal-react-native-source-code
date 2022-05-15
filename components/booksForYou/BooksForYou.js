@@ -5,9 +5,11 @@ import { testBooks } from '../../utils/constants/tests'
 import RecommendedBookCard from '../recommendedBookCard/RecommendedBookCard'
 import SubHeader from '../subHeader/SubHeader'
 
-const renderItem = ({item}) => <RecommendedBookCard book={item}/>
 
-const BooksForYou = () => {
+const BooksForYou = ({navigation}) => {
+
+  const renderItem = ({item}) => <RecommendedBookCard navigation={navigation} book={item}/>
+
   return (
     <View>
       <SubHeader subtitle={'Books For You'} seeAll/>

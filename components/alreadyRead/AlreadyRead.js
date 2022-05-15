@@ -8,9 +8,11 @@ import { testBooks } from '../../utils/constants/tests'
 import alreadyReadStyle from './alreadyReadStyle'
 import SubHeader from '../subHeader/SubHeader'
 
-const renderItem = ({item}) => <SmallBookCard book={item}/>
 
-const AlreadyRead = () => {
+const AlreadyRead = ({navigation}) => {
+
+  const renderItem = ({item}) => <SmallBookCard book={item} navigation={navigation}/>
+
   return (
     <View>
       <SubHeader subtitle={'Already Read'} seeAll/>

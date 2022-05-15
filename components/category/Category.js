@@ -5,9 +5,9 @@ import { Fonts } from '../../utils/styles/fonts'
 import categoryStyle from './categoryStyle'
 
 
-const Category = ({categoryName}) => {
+const Category = ({style, categoryName}) => {
   return (
-    <View style={categoryStyle.categoryWrapper}>
+    <View style={{...style ,...categoryStyle.categoryWrapper }}>
       <Text style={[
         Fonts.PoppinsSemiBold,
         categoryStyle.category

@@ -9,7 +9,7 @@ import BottomTabNavigator from './components/bottomTab/BottomTabNavigator'
 const App = () => {
   return (
     <NavigationContainer>
-      <Login />  
+      <BottomTabNavigator />  
     </NavigationContainer>
   )
 }

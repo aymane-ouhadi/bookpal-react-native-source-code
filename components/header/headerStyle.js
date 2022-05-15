@@ -6,12 +6,13 @@ const PROFILE_IMAGE_SIZE = 45
 export default StyleSheet.create({
     body: {
         width: '100%',
-        // backgroundColor: '#eee',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingVertical: 15,
+        backgroundColor: '#fff',
+        paddingHorizontal: 20,
         // borderBottomWidth: 1,
         // borderBottomColor: '#eee'
     },
@@ -26,5 +27,5 @@ export default StyleSheet.create({
         width: '100%',
         height: '100%',
         marginTop: 2
-    }
+    },
 })

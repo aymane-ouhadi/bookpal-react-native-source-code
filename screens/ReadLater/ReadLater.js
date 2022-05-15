@@ -12,7 +12,6 @@ const renderItem = ({item}) => <SmallBookCard book={item}/>
 const ReadLater = () => {
   return (
     <View style={readLaterStyle.body}>
-      <Header />
       <SubHeader subtitle={'Read Later'} />
       <FlatList
         data={testBooks}
