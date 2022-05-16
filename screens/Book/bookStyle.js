@@ -1,17 +1,19 @@
 import { StyleSheet } from 'react-native'
-import { TEXT_PRIMARY } from '../../utils/constants/colors'
+import { TEXT_PRIMARY, THEME_SECONDARY_LIGHT } from '../../utils/constants/colors'
 
 const ASPECT_RATIO = 200/300
 const COVER_HEIGHT = 300
+const SIZE = 17
 
 export default StyleSheet.create({
     body: {
         flex: 1,
         backgroundColor: '#fff',
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        overflow: 'visible'
     },
     bookCoverBackGroundWrapper: {
-        height: 270,
+        height: 300,
         width: '100%',
         position: 'absolute',
         top: 0
@@ -38,8 +40,8 @@ export default StyleSheet.create({
     },
     topInfo: {
         marginTop: 40,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#ddd',
     },
     bookTitle: {
         fontSize: 22,
@@ -73,5 +75,36 @@ export default StyleSheet.create({
     },
     score: {
         marginHorizontal: 3
-    }
+    },
+    bookExtraInfoWrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15
+    },
+    bookExtraInfoLabel: {
+        marginRight: 10,
+        color: TEXT_PRIMARY
+    }, 
+    bookExtraInfo: {
+        marginRight: 10,
+    },
+    bookExtraInfoIcon: {
+        color: TEXT_PRIMARY
+    },  
+    actionWrapper: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'center',
+        marginHorizontal: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: THEME_SECONDARY_LIGHT
+    },
+    action: {
+        color: THEME_SECONDARY_LIGHT
+    },
 })

@@ -13,25 +13,24 @@ const Stars = ({score}) => {
     return (
         <View style={starsStyle.body}>
         {
-            Array(score).fill(0).map(() => (
-                <View style={starsStyle.star}>
-                    <AntDesign 
-                        name='star'
-                        color={TEXT_REVIEW}
-                        size={SIZE}
-                    />
-                </View>
-            ))
-        }
-        {
-            Array(5 - score).fill(0).map(() => (
-                <View style={starsStyle.star}>
-                    <AntDesign 
-                        name='staro'
-                        color={TEXT_REVIEW}
-                        size={SIZE}
-                    />
-                </View>
+            Array(5).fill(0).map((_, index) => (
+                index < score
+                ? 
+                    <View style={starsStyle.star} key={index}>
+                        <AntDesign 
+                            name='star'
+                            color={TEXT_REVIEW}
+                            size={SIZE}
+                        />
+                    </View>
+                :
+                    <View style={starsStyle.star} key={index}>
+                        <AntDesign 
+                            name='staro'
+                            color={TEXT_REVIEW}
+                            size={SIZE}
+                        />
+                    </View>
             ))
         }
         </View>

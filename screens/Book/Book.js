@@ -1,30 +1,36 @@
-import { View, ScrollView, Text, Image } from 'react-native'
-import React from 'react'
+import { View, ScrollView, Text, Image, Pressable } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import Fontisto from 'react-native-vector-icons/Fontisto'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { Fonts } from '../../utils/styles/fonts'
 
+import { testReviews } from '../../utils/constants/tests'
 import bookStyle from './bookStyle'
 import Category from '../../components/category/Category'
 import Stars from '../../components/stars/Stars'
-import { TEXT_REVIEW } from '../../utils/constants/colors'
+import { TEXT_REVIEW, THEME_SECONDARY_LIGHT } from '../../utils/constants/colors'
+import nFormatter from '../../utils/custom/nFormatter'
+import ReviewForm from '../../components/reviewsForm/ReviewForm'
+import ReviewsList from '../../components/reviewsList/ReviewsList'
 
 const Book = ({route}) => {
   
-  const { book } = route.params
+  const {book} = route.params
 
-  function nFormatter(num, digits) {
-    const lookup = [
-      { value: 1, symbol: "" },
-      { value: 1e3, symbol: "K" },
-      { value: 1e6, symbol: "M" },
-      { value: 1e9, symbol: "B" }
-    ];
-    const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    var item = lookup.slice().reverse().find(function(item) {
-      return num >= item.value;
-    });
-    return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
-  }
+  const [reviews, setReviews] = useState([])
+
+  useEffect(() => {
+      const fetchReviews = async () => {
+          try {
+              setReviews(testReviews)
+          } catch (error) {
+              throw error
+          }
+      }
+      fetchReviews()
+  }, [])
 
   return (
     <ScrollView style={bookStyle.body} showsVerticalScrollIndicator={false}>
@@ -46,7 +52,7 @@ const Book = ({route}) => {
           Fonts.PoppinsBold,
           bookStyle.bookTitle
         ]}>
-          {book.volumeInfo.title}
+          {book.volumeInfo.title} {book.volumeInfo?.subtitle ? `: ${book.volumeInfo?.subtitle}` : null}
         </Text>
         <Text style={[
           Fonts.PoppinsRegular,
@@ -56,33 +62,62 @@ const Book = ({route}) => {
         </Text>
         <View style={bookStyle.categoriesWrapper}>
           {
-            book.volumeInfo.categories.map((bookCategory) => (
-              <Category style={{ marginBottom: 5 }} categoryName={bookCategory}/>
+            book.volumeInfo.categories.map((bookCategory, index) => (
+              <Category key={index} style={{ marginBottom: 5 }} categoryName={bookCategory}/>
             ))
           }
         </View>
         <View style={bookStyle.reviewWrapper}>
           <Stars score={Math.floor(book.volumeInfo.averageRating)} />
-          
           <Text style={[
-                Fonts.PoppinsSemiBold,
-                {color: TEXT_REVIEW},
-                bookStyle.score
-            ]}>
-                {book.volumeInfo.averageRating}
-            </Text>
+              Fonts.PoppinsSemiBold,
+              {color: TEXT_REVIEW},
+              bookStyle.score
+          ]}>
+              {book.volumeInfo.averageRating}
+          </Text>
+          <Text style={[
+              Fonts.PoppinsRegular,
+              bookStyle.score
+          ]}>
+              /
+          </Text>
+          <Text style={[
+              Fonts.PoppinsRegular,
+              bookStyle.score
+          ]}>
+              {nFormatter(book.volumeInfo.ratingsCount, 1)} {book.volumeInfo.ratingsCount === 1 ? 'review' : 'reviews'}
+          </Text>
+        </View>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Pressable style={bookStyle.actionWrapper}>
+            <AntDesign
+              name='hearto'
+              size={14}
+              style={{ marginRight: 7 }}
+              color={THEME_SECONDARY_LIGHT}
+            />
             <Text style={[
-                Fonts.PoppinsSemiBold,
-                bookStyle.score
+              Fonts.PoppinsRegular,
+              bookStyle.action
             ]}>
-                /
+              Add To Favorites
             </Text>
+          </Pressable>
+          <Pressable style={bookStyle.actionWrapper}>
+            <AntDesign
+              name='clockcircleo'
+              size={14}
+              style={{ marginRight: 7 }}
+              color={THEME_SECONDARY_LIGHT}
+            />
             <Text style={[
-                Fonts.PoppinsSemiBold,
-                bookStyle.score
+              Fonts.PoppinsRegular,
+              bookStyle.action
             ]}>
-                {nFormatter(book.volumeInfo.ratingsCount, 1)} {book.volumeInfo.ratingsCount === 1 ? 'review' : 'reviews'}
+              Read Later
             </Text>
+          </Pressable>
         </View>
       </View>
       <View>
@@ -98,6 +133,106 @@ const Book = ({route}) => {
         ]}>
           {book.volumeInfo.description}
         </Text>
+        <Text style={[
+          bookStyle.bookHeader,
+          Fonts.PoppinsBold
+        ]}>
+          Other Information
+        </Text>
+        {/* Publisher */}
+        <View style={bookStyle.bookExtraInfoWrapper}>
+          <Text style={[
+            bookStyle.bookExtraInfo,
+            Fonts.PoppinsRegular
+          ]}>
+            <AntDesign
+              name='book'
+              style={bookStyle.bookExtraInfoIcon}
+              size={17}
+            />
+          </Text>
+          <Text style={[
+            bookStyle.bookExtraInfoLabel,
+            Fonts.PoppinsSemiBold
+          ]}>Publisher :</Text>
+          <Text style={[
+            bookStyle.bookExtraInfo,
+            Fonts.PoppinsRegular
+          ]}>{book.volumeInfo.publisher}</Text>
+        </View>
+        {/* Publishing Date */}
+        <View style={bookStyle.bookExtraInfoWrapper}>
+          <Text style={[
+            bookStyle.bookExtraInfo,
+            Fonts.PoppinsRegular
+          ]}>
+            <Fontisto
+              name='date'
+              style={bookStyle.bookExtraInfoIcon}
+              size={15}
+            />
+          </Text>
+          <Text style={[
+            bookStyle.bookExtraInfoLabel,
+            Fonts.PoppinsSemiBold
+          ]}>Published Date :</Text>
+          <Text style={[
+            bookStyle.bookExtraInfo,
+            Fonts.PoppinsRegular
+          ]}>{book.volumeInfo.publishedDate}</Text>
+        </View>
+        {/* Number of pages */}
+        <View style={bookStyle.bookExtraInfoWrapper}>
+          <Text style={[
+            bookStyle.bookExtraInfo,
+            Fonts.PoppinsRegular
+          ]}>
+            <Ionicons
+              name='book-outline'
+              style={bookStyle.bookExtraInfoIcon}
+              size={17}
+            />
+          </Text>
+          <Text style={[
+            bookStyle.bookExtraInfoLabel,
+            Fonts.PoppinsSemiBold
+          ]}>Pages :</Text>
+          <Text style={[
+            bookStyle.bookExtraInfo,
+            Fonts.PoppinsRegular
+          ]}>{book.volumeInfo.pageCount}</Text>
+        </View>
+        {/* Number of pages */}
+        <View style={bookStyle.bookExtraInfoWrapper}>
+          <Text style={[
+            bookStyle.bookExtraInfo,
+            Fonts.PoppinsRegular
+          ]}>
+            <Ionicons
+              name='language'
+              style={bookStyle.bookExtraInfoIcon}
+              size={17}
+            />
+          </Text>
+          <Text style={[
+            bookStyle.bookExtraInfoLabel,
+            Fonts.PoppinsSemiBold
+          ]}>Language :</Text>
+          <Text style={[
+            bookStyle.bookExtraInfo,
+            Fonts.PoppinsRegular
+          ]}>{book.volumeInfo.language.toUpperCase()}</Text>
+        </View>
+      </View>
+      <View>
+        <Text style={[
+          bookStyle.bookHeader,
+          Fonts.PoppinsBold
+        ]}>
+          Reviews
+        </Text>
+        <ReviewForm addReview={(review) => { setReviews((oldReviews) => [review, ...oldReviews]) } }/>
+        <ReviewsList reviews={reviews}/>
       </View>
     </ScrollView>
   )
