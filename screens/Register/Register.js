@@ -16,7 +16,7 @@ import {
  
  import registerStyle from './registerStyle'
  
- const Register = () => {
+ const Register = ({navigation}) => {
    return (
      <View style={registerStyle.loginBody}>
        {/* ===================== LOGIN TOP ===================== */}
@@ -125,9 +125,17 @@ import {
                  </View>
              </View>
              {/* ===================== LOGIN BUTTON ===================== */}
-             <AuthSubmitButton iconName={'check'}/>
+             <AuthSubmitButton 
+              iconName={'check'}
+              navigation={navigation}
+              to='Login'
+              />
            </View>
-           <AuthActionButton title={'Login'}/>
+           <AuthActionButton 
+            title={'Login'}
+            navigation={navigation}
+            to='Login'
+            />
          </View>
  
          

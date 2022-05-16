@@ -1,13 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import authActionButtonStyle from './authActionButtonStyle'
 import { Fonts } from '../../utils/styles/fonts'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { THEME_PRIMARY } from '../../utils/constants/colors'
 
-const AuthActionButton = ({title, iconName}) => {
+const AuthActionButton = ({title, iconName, navigation, to}) => {
+  
+  const handlePress = () => {
+    if(navigation){
+      navigation.navigate(to)
+    }
+  }
+
   return (
-    <View style={authActionButtonStyle.loginRegisterWrapper}>
+    <TouchableOpacity 
+      style={authActionButtonStyle.loginRegisterWrapper}
+      onPress={handlePress}
+    >
         {
           iconName
           &&
@@ -25,7 +35,7 @@ const AuthActionButton = ({title, iconName}) => {
         ]}>
             {title}
         </Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 

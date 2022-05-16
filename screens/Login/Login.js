@@ -3,7 +3,7 @@ import {
    TextInput,
    View,
 } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Feather from 'react-native-vector-icons/Feather'
 
@@ -14,7 +14,15 @@ import BottomWave from '../../components/bottomWave/BottomWave'
 import AuthActionButton from '../../components/authActionButton/AuthActionButton'
 import AuthSubmitButton from '../../components/authSubmitButton/AuthSubmitButton'
 
-const Login = () => {
+const Login = ({navigation}) => {
+
+  const [data, setData] = useState({
+    email: '',
+    password: ''
+  })
+
+
+
   return (
     <View style={loginStyle.loginBody}>
       {/* ===================== LOGIN TOP ===================== */}
@@ -72,10 +80,20 @@ const Login = () => {
                 </View>
             </View>
             {/* ===================== LOGIN BUTTON ===================== */}
-            <AuthSubmitButton iconName={'arrow-right'}/>
+            <AuthSubmitButton 
+              iconName={'arrow-right'}
+              navigation={navigation}
+              to='Welcome'
+            />
           </View>
-          <AuthActionButton title={'Sign in with Google'} iconName='google'/>
-          <AuthActionButton title={'Register'}/>
+          <AuthActionButton 
+            title={'Sign in with Google'} 
+            iconName='google'/>
+          <AuthActionButton 
+            title={'Register'} 
+            navigation={navigation}
+            to='Register'
+          />
         </View>
 
         
