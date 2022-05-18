@@ -11,9 +11,11 @@ import recommendedBookCardStyle from './recommendedBookCardStyle'
 const RecommendedBookCard = ({book, navigation}) => {
 
   const handlePress = () => {
-    navigation.navigate('Book', {
-      book: book
-    })
+    if(navigation?.navigate){
+      navigation.navigate('Book', {
+        book: book
+      })
+    }
   }
 
   return (
@@ -31,7 +33,7 @@ const RecommendedBookCard = ({book, navigation}) => {
               recommendedBookCardStyle.bookTitle
             ]}
             >
-              {cutText(book.volumeInfo.title, 14)}
+              {cutText(book.volumeInfo.title, 16)}
             </Text>
         </View>
         <View style={recommendedBookCardStyle.bookInfoWrapper}>

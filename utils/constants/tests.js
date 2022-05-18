@@ -1,4 +1,5 @@
-export const testBooks = Array(3).fill({
+export const testBooks = [
+  ...Array(2).fill({
   "kind": "books#volume",
   "id": "JLm_IpwTVXIC",
   "etag": "PScug4mxBOM",
@@ -73,7 +74,79 @@ export const testBooks = Array(3).fill({
   "searchInfo": {
     "textSnippet": "October 1991. It was \"the perfect storm\"--a tempest that may happen only once in a century--a nor'easter created by so rare a combination of factors that it could not possibly have been worse."
   }
-})
+  }),
+  ...Array(2).fill({
+    "kind": "books#volume",
+    "id": "sV7pAAAAMAAJ",
+    "etag": "1mKV6OLz5WM",
+    "selfLink": "https://www.googleapis.com/books/v1/volumes/sV7pAAAAMAAJ",
+    "volumeInfo": {
+      "title": "Love in the Time of Cholera",
+      "authors": [
+        "Gabriel García Márquez"
+      ],
+      "publisher": "Penguin USA",
+      "publishedDate": "1989",
+      "description": "Set on the Caribbean coast of South America, this love story brings together Fermina Daza, her distinguished husband, and a man who has secretly loved her for more than fifty years",
+      "industryIdentifiers": [
+        {
+          "type": "OTHER",
+          "identifier": "UTEXAS:059173011919899"
+        }
+      ],
+      "readingModes": {
+        "text": false,
+        "image": false
+      },
+      "pageCount": 348,
+      "printType": "BOOK",
+      "categories": [
+        "Adultery"
+      ],
+      "averageRating": 3.5,
+      "ratingsCount": 195,
+      "maturityRating": "NOT_MATURE",
+      "allowAnonLogging": false,
+      "contentVersion": "0.1.2.0.preview.0",
+      "panelizationSummary": {
+        "containsEpubBubbles": false,
+        "containsImageBubbles": false
+      },
+      "imageLinks": {
+        "smallThumbnail": "http://books.google.com/books/content?id=sV7pAAAAMAAJ&printsec=frontcover&img=1&zoom=5&source=gbs_api",
+        "thumbnail": "http://books.google.com/books/content?id=sV7pAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+      },
+      "language": "en",
+      "previewLink": "http://books.google.com/books?id=sV7pAAAAMAAJ&dq=isbn:0140119906&hl=&cd=1&source=gbs_api",
+      "infoLink": "http://books.google.com/books?id=sV7pAAAAMAAJ&dq=isbn:0140119906&hl=&source=gbs_api",
+      "canonicalVolumeLink": "https://books.google.com/books/about/Love_in_the_Time_of_Cholera.html?hl=&id=sV7pAAAAMAAJ"
+    },
+    "saleInfo": {
+      "country": "MA",
+      "saleability": "NOT_FOR_SALE",
+      "isEbook": false
+    },
+    "accessInfo": {
+      "country": "MA",
+      "viewability": "NO_PAGES",
+      "embeddable": false,
+      "publicDomain": false,
+      "textToSpeechPermission": "ALLOWED",
+      "epub": {
+        "isAvailable": false
+      },
+      "pdf": {
+        "isAvailable": false
+      },
+      "webReaderLink": "http://play.google.com/books/reader?id=sV7pAAAAMAAJ&hl=&printsec=frontcover&source=gbs_api",
+      "accessViewStatus": "NONE",
+      "quoteSharingAllowed": false
+    },
+    "searchInfo": {
+      "textSnippet": "Set on the Caribbean coast of South America, this love story brings together Fermina Daza, her distinguished husband, and a man who has secretly loved her for more than fifty years"
+    }
+  }),
+]
 
 export const testReviews = Array(7).fill({
   uid: '7DhCIsnAJZUWmAjy4SaCFHZQpLQ2',

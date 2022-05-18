@@ -6,13 +6,14 @@ import {
 import React, { useState } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Feather from 'react-native-vector-icons/Feather'
-
 import { Fonts } from '../../utils/styles/fonts'
+
 import loginStyle from './loginStyle'
 import TopWave from '../../components/topWave/TopWave'
 import BottomWave from '../../components/bottomWave/BottomWave'
 import AuthActionButton from '../../components/authActionButton/AuthActionButton'
 import AuthSubmitButton from '../../components/authSubmitButton/AuthSubmitButton'
+import ErrorBlock from '../../components/errorBlock/ErrorBlock'
 
 const Login = ({navigation}) => {
 
@@ -20,8 +21,6 @@ const Login = ({navigation}) => {
     email: '',
     password: ''
   })
-
-
 
   return (
     <View style={loginStyle.loginBody}>
@@ -41,6 +40,7 @@ const Login = ({navigation}) => {
             </Text>
           </View>
           {/* ===================== LOGIN FORM ===================== */}
+          {/* <ErrorBlock message={'hh'}/> */}
           <View style={{ 
             display: 'flex',
             flexDirection: 'row',
@@ -62,6 +62,8 @@ const Login = ({navigation}) => {
                       Fonts.PoppinsRegular
                     ]}
                     placeholder='Email'
+                    value={data.email}
+                    onChangeText={(value) => setData({...data, email: value})}
                   />
                 </View>
                 <View style={loginStyle.loginInputField}>
@@ -76,12 +78,15 @@ const Login = ({navigation}) => {
                       Fonts.PoppinsRegular
                     ]}
                     placeholder='Password'
+                    value={data.password}
+                    onChangeText={(value) => setData({...data, password: value})}
                   />
                 </View>
             </View>
             {/* ===================== LOGIN BUTTON ===================== */}
             <AuthSubmitButton 
               iconName={'arrow-right'}
+              data={data}
               navigation={navigation}
               to='Welcome'
             />

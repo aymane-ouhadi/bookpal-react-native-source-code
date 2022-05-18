@@ -6,13 +6,14 @@ import LinearGradient from 'react-native-linear-gradient'
 import authSubmitButtonStyle from './authSubmitButtonStyle'
 import { THEME_PRIMARY } from '../../utils/constants/colors'
 
-const AuthSubmitButton = ({iconName, navigation, to}) => {
+const AuthSubmitButton = ({data, iconName, navigation, to}) => {
 
   const [isFetching, setIsFetching] = useState(false)
 
   const handlePress = async () => {
     try {
       setIsFetching(true)
+      console.log(data)
       setTimeout(() => {
         setIsFetching(false)
         navigation.navigate(to)

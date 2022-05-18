@@ -10,7 +10,7 @@ export default StyleSheet.create({
       flex: 1,
       display: 'flex',
       backgroundColor: '#fff',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     loginSection: {
     },

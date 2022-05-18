@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, Pressable } from 'react-native'
+import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
@@ -44,13 +44,13 @@ const ReviewForm = ({ addReview }) => {
                 />
             </View>
         </View>
-        <Pressable onPress={handleSubmit} style={reviewFormStyle.reviewRight}>
+        <TouchableOpacity onPress={handleSubmit} style={reviewFormStyle.reviewRight}>
             <Ionicons 
                 name='send'
                 size={20}
                 color={TEXT_PRIMARY}
             />
-        </Pressable>
+        </TouchableOpacity>
     </View>
     )
 }

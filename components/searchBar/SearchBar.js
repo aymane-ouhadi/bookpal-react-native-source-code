@@ -28,14 +28,13 @@ const _content_translate_y = new Value(height)
 const _content_opacity = new Value(0)
 
 
-const SearchBar = ({isFetching}) => {
+const SearchBar = ({setInput, isFetching}) => {
   
   //Setting the ref
   const textInputRef = useRef({})
 
   //Initializing state
   const [isFocused, setIsFocused] = useState(false)
-  const [input, setInput] = useState('')
 
   //Handling search bar focus event
   const handleFocus = () => {
@@ -152,7 +151,7 @@ const SearchBar = ({isFetching}) => {
               <TextInput 
                 placeholder='Search for books here...'
                 clearButtonMode='always'
-                value={input}
+                // value={input}
                 onChangeText={(value) => {handleTextChange(value)}}
                 style={[Fonts.PoppinsRegular, searchBarStyle.input]}
                 ref={textInputRef}

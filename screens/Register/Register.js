@@ -2,9 +2,12 @@ import {
     Text, 
     TextInput,
     View,
+    Pressable,
  } from 'react-native'
- import React from 'react'
+ import { Picker } from '@react-native-picker/picker';
+ import React, { useState, useRef } from 'react'
  import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+ import FontAwesome from 'react-native-vector-icons/FontAwesome'
  import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
  import Feather from 'react-native-vector-icons/Feather'
  
@@ -15,8 +18,21 @@ import {
  import AuthSubmitButton from '../../components/authSubmitButton/AuthSubmitButton'
  
  import registerStyle from './registerStyle'
+import ErrorBlock from '../../components/errorBlock/ErrorBlock';
  
  const Register = ({navigation}) => {
+
+    const [data, setData] = useState({
+      firstName: '',
+      lastName: '',
+      gender: null,
+      email: '',
+      password: '',
+      confirmPassword: '', 
+    })
+
+    const pickerRef = useRef()
+
    return (
      <View style={registerStyle.loginBody}>
        {/* ===================== LOGIN TOP ===================== */}
@@ -35,6 +51,7 @@ import {
              </Text>
            </View>
            {/* ===================== LOGIN FORM ===================== */}
+           {/* <ErrorBlock message={'hh'}/> */}
            <View style={{ 
              display: 'flex',
              flexDirection: 'row',
@@ -56,6 +73,8 @@ import {
                        Fonts.PoppinsRegular
                      ]}
                      placeholder='First Name'
+                     value={data.firstName}
+                     onChangeText={(value) => setData({...data, firstName: value})}
                    />
                  </View>
                  <View style={{ 
@@ -73,8 +92,42 @@ import {
                        Fonts.PoppinsRegular
                      ]}
                      placeholder='Last Name'
+                     value={data.lastName}
+                     onChangeText={(value) => setData({...data, lastName: value})}
                    />
                  </View>
+                 <Pressable style={{ 
+                   borderBottomWidth: 1, 
+                   borderBottomColor: '#DDD',
+                   ...registerStyle.loginInputField
+                 }}
+                  onPress={() => { pickerRef.current.focus() }}
+                 >
+                   <FontAwesome
+                        style={registerStyle.loginIcon}
+                        name='transgender'
+                    />
+                   <TextInput 
+                     style={[
+                       registerStyle.loginTextInput,
+                       Fonts.PoppinsRegular
+                     ]}
+                     placeholder='Gender'
+                     editable={false}
+                     value={data.gender}
+                   />
+                 </Pressable>
+                  <Picker
+                    ref={pickerRef}
+                    style={{ display: 'none' }}
+                    selectedValue={data.gender}
+                    onValueChange={(itemValue, itemIndex) =>
+                      setData({...data, gender: itemValue})
+                    }>
+                    <Picker.Item label="Select Gender"/>
+                    <Picker.Item label="Male" value="Male" />
+                    <Picker.Item label="Female" value="Female" />
+                  </Picker>
                  <View style={{ 
                    borderBottomWidth: 1, 
                    borderBottomColor: '#DDD',
@@ -90,6 +143,8 @@ import {
                        Fonts.PoppinsRegular
                      ]}
                      placeholder='Email'
+                     value={data.email}
+                     onChangeText={(value) => setData({...data, email: value})}
                    />
                  </View>
                  <View style={{ 
@@ -106,7 +161,10 @@ import {
                        registerStyle.loginTextInput,
                        Fonts.PoppinsRegular
                      ]}
+                     secureTextEntry
                      placeholder='Password'
+                     value={data.password}
+                     onChangeText={(value) => setData({...data, password: value})}
                    />
                  </View>
                  <View style={registerStyle.loginInputField}>
@@ -121,6 +179,8 @@ import {
                        Fonts.PoppinsRegular
                      ]}
                      placeholder='Confirm Password'
+                     value={data.confirmPassword}
+                     onChangeText={(value) => setData({...data, confirmPassword: value})}
                    />
                  </View>
              </View>
@@ -128,6 +188,7 @@ import {
              <AuthSubmitButton 
               iconName={'check'}
               navigation={navigation}
+              data={data}
               to='Login'
               />
            </View>

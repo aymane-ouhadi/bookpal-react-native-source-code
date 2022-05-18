@@ -97,14 +97,30 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         alignSelf: 'center',
-        marginHorizontal: 5,
+        margin: 5,
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 20,
         borderWidth: 1,
         borderColor: THEME_SECONDARY_LIGHT
     },
+    actionWrapperHighlighted: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'center',
+        margin: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 20,
+        borderWidth: 1,
+        borderColor: THEME_SECONDARY_LIGHT,
+        backgroundColor: THEME_SECONDARY_LIGHT
+    },
     action: {
         color: THEME_SECONDARY_LIGHT
+    },
+    actionHighlighted: {
+        color: '#fff'
     },
 })
