@@ -7,9 +7,9 @@ import SmallBookSkeleton from '../../components/smallBookSkeleton/SmallBookSkele
 import { testBooks } from '../../utils/constants/tests'
 import SmallBookCard from '../../components/smallBookCard/SmallBookCard'
 
-const Recommendations = () => {
+const Recommendations = ({navigation}) => {
 
-  const renderItem = ({item}) => <SmallBookCard book={item}/>
+  const renderItem = ({item}) => <SmallBookCard book={item} navigation={navigation}/>
 
   const [books, setBooks] = useState([])
   const [isFetching, setIsFetching] = useState(true)

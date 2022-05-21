@@ -10,9 +10,10 @@ import SmallBookSkeleton from '../../components/smallBookSkeleton/SmallBookSkele
 import readLaterStyle from './readLaterStyle'
 import EmptyState from '../../components/emptyState/EmptyState'
 
-const renderItem = ({item}) => <SmallBookCard book={item}/>
 
-const ReadLater = () => {
+const ReadLater = ({navigation}) => {
+
+  const renderItem = ({item}) => <SmallBookCard book={item} navigation={navigation}/>
 
   const [books, setBooks] = useState([])
   const [isFetching, setIsFetching] = useState(true)

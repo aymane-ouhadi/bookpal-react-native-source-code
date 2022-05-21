@@ -6,8 +6,8 @@ import SmallBookSkeleton from '../../components/smallBookSkeleton/SmallBookSkele
 import SubHeader from '../../components/subHeader/SubHeader'
 import SmallBookCard from '../../components/smallBookCard/SmallBookCard'
 
-const AlreadyRead = () => {
-  const renderItem = ({item}) => <SmallBookCard book={item}/>
+const AlreadyRead = ({navigation}) => {
+  const renderItem = ({item}) => <SmallBookCard book={item} navigation={navigation}/>
 
   const [books, setBooks] = useState([])
   const [isFetching, setIsFetching] = useState(true)

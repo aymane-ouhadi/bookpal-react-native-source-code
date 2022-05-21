@@ -17,7 +17,7 @@ const Home = ({navigation}) => {
 
   const HomeCombined = ({navigation}) => {
     return (
-      <ScrollView style={homeStyle.body}>
+      <ScrollView style={homeStyle.body} showsVerticalScrollIndicator={false}>
         <BooksForYou navigation={navigation}/>
         <AlreadyRead navigation={navigation}/>
       </ScrollView>

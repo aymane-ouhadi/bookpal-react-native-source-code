@@ -1,5 +1,5 @@
-import { View, Text, FlatList } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { View } from 'react-native'
+import React from 'react'
 
 import ReviewCard from '../reviewCard/ReviewCard'
 
@@ -12,12 +12,6 @@ const ReviewsList = ({reviews}) => {
         {reviews.map((review, index) => (
             <ReviewCard key={index} review={review}/>
         ))}
-        {/* <FlatList 
-            data={testReviews}
-            renderItem={renderItem}
-            keyExtractor = { item => item.id + Math.floor(Math.random() * (100 - 1 + 1) + 1)}
-            scrollEnabled={false}
-        /> */}
     </View>
     )
 }

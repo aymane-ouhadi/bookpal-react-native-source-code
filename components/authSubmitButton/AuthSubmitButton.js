@@ -13,7 +13,6 @@ const AuthSubmitButton = ({data, iconName, navigation, to}) => {
   const handlePress = async () => {
     try {
       setIsFetching(true)
-      console.log(data)
       setTimeout(() => {
         setIsFetching(false)
         navigation.navigate(to)

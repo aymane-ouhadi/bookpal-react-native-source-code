@@ -16,7 +16,7 @@ import ReviewForm from '../../components/reviewsForm/ReviewForm'
 import ReviewsList from '../../components/reviewsList/ReviewsList'
 import RecommendedBookCard from '../../components/recommendedBookCard/RecommendedBookCard'
 
-const Book = ({route}) => {
+const Book = ({navigation, route}) => {
   
   const {book} = route.params
 
@@ -253,7 +253,7 @@ const Book = ({route}) => {
         >
           {
             testBooks.map((book, index) => (
-              <RecommendedBookCard key={index} book={book}/>
+              <RecommendedBookCard key={index} book={book} navigation={navigation}/>
             )) 
           }
         </ScrollView>

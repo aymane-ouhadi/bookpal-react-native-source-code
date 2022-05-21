@@ -1,7 +1,11 @@
-import axios from "axios"
+import Axios from "axios"
+
+//constants
+const API_URL = 'https://www.googleapis.com/books/v1/volumes?q='
 
 //Get Book By ISBN
-export const getBookByISBN = (ISBN) => {
+export const getBookByISBN = async (ISBN) => {
     //Axios Call
-    axios
+    const {data: {items}} = await Axios.get(API_URL + `isbn:${ISBN}`)
+    return items[0]
 }

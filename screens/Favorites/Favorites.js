@@ -11,9 +11,10 @@ import SmallBookSkeleton from '../../components/smallBookSkeleton/SmallBookSkele
 import EmptyState from '../../components/emptyState/EmptyState'
 import Images from '../../assets/images/images'
 
-const renderItem = ({item}) => <SmallBookCard book={item}/>
 
-const Favorites = () => {
+const Favorites = ({navigation}) => {
+  
+  const renderItem = ({item}) => <SmallBookCard book={item} navigation={navigation}/>
 
   const [books, setBooks] = useState([])
   const [isFetching, setIsFetching] = useState(true)
@@ -34,7 +35,7 @@ const Favorites = () => {
   }, [])
 
   const SkeletonList = () => (
-    testBooks.map((book) => (
+    testBooks.map((_) => (
       <SmallBookSkeleton />
     ))
   )

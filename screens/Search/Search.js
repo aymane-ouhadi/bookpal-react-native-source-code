@@ -12,14 +12,15 @@ import Images from '../../assets/images/images'
 
 import searchStyle from './searchStyle'
 
-const renderItem = ({item}) => <SmallBookCard book={item}/>
 
-const Search = () => {
-
+const Search = ({navigation}) => {
+  
   //Initializing state
   const [books, setBooks] = useState([])
   const [input, setInput] = useState('')
   const [isFetching, setIsFetching] = useState(false)
+
+  const renderItem = ({item}) => <SmallBookCard book={item} navigation={navigation}/>
 
   useEffect(() => {
     setBooks(testBooks)
@@ -37,7 +38,7 @@ const Search = () => {
           !isFetching
           ?
             <View>
-              <SubHeader subtitle={"Search Results"}/>
+              {books.length ? <SubHeader subtitle={"Search Results"}/> : null}
               {
                 books.length ?
                 <FlatList
