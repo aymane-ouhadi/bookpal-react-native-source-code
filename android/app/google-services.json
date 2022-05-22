@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "144681503238",
+    "project_id": "pfa-book-recommendation",
+    "storage_bucket": "pfa-book-recommendation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:144681503238:android:3d55434ff97e22c0f3d187",
+        "android_client_info": {
+          "package_name": "com.bookpal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "144681503238-jdsnkiaejohaiibp58vtktrknck2eren.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bookpal",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "144681503238-qmiai9esu909gs9bsvacq7l21u5lrf4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT4MmBEzCpx4BhYh4pvjT1j1TzXCBtgCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "144681503238-qmiai9esu909gs9bsvacq7l21u5lrf4m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

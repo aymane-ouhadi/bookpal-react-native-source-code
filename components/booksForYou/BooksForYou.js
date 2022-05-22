@@ -1,6 +1,6 @@
 import { ScrollView, View } from 'react-native'
-import React, { useState } from 'react'
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react'
+// import { useFocusEffect } from '@react-navigation/native';
 
 import { getBookByISBN } from '../../utils/api/GoogleBooksAPICalls';
 import { testBooks } from '../../utils/constants/tests'
@@ -18,22 +18,16 @@ const BooksForYou = ({navigation}) => {
   
   const fetchBooks = async () => {
     try {
-      setTimeout(() => {
-        setBooks(testBooks)
-        getBookByISBN('0316693286')
-        setIsFetching(false)
-      }, 1000)
+      setBooks(testBooks)
+      setIsFetching(false)
     } catch (error) {
       throw error
     }
   }
   
-  useFocusEffect(
-    React.useCallback(() => {
-      fetchBooks()
-      return () => console.log('we out')
-    }, [books]),
-  );
+  useEffect(() => {
+    fetchBooks()
+  }, []);
   
   const SkeletonList = () => (
     Array(3).fill(null).map((_, index) => <RecommendedBookSkeleton key={index}/>)

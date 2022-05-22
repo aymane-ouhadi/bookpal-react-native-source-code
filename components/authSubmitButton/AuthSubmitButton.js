@@ -1,26 +1,27 @@
 import { View, Pressable, ActivityIndicator } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import LinearGradient from 'react-native-linear-gradient'
 
 import authSubmitButtonStyle from './authSubmitButtonStyle'
 import { THEME_PRIMARY } from '../../utils/constants/colors'
+import { AuthContext } from '../../context/Auth/AuthContext'
 
-const AuthSubmitButton = ({data, iconName, navigation, to}) => {
+const AuthSubmitButton = ({data, iconName, navigation, to, onPress}) => {
 
-  const [isFetching, setIsFetching] = useState(false)
+  const [state, setState] = useContext(AuthContext)
 
-  const handlePress = async () => {
-    try {
-      setIsFetching(true)
-      setTimeout(() => {
-        setIsFetching(false)
-        navigation.navigate(to)
-      }, 2000)
-    } catch (error) {
+  // const handlePress = async () => {
+  //   try {
+  //     setIsFetching(true)
+  //     setTimeout(() => {
+  //       setIsFetching(false)
+  //       navigation.navigate(to)
+  //     }, 2000)
+  //   } catch (error) {
       
-    }
-  }
+  //   }
+  // }
 
   return (
     <View style={{ 
@@ -40,7 +41,7 @@ const AuthSubmitButton = ({data, iconName, navigation, to}) => {
         angle={30}
       >
         <Pressable
-          onPress={handlePress} 
+          onPress={onPress} 
           android_ripple={{ 
             color: '#aaa',
             borderless: false
@@ -48,7 +49,7 @@ const AuthSubmitButton = ({data, iconName, navigation, to}) => {
           style={authSubmitButtonStyle.loginBtn}
         >
           {
-            isFetching ?
+            state.isFetching ?
               <ActivityIndicator
                 size={40}
                 color='#fff'

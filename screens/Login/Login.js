@@ -3,9 +3,11 @@ import {
    TextInput,
    View,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Feather from 'react-native-vector-icons/Feather'
+import AuthAPI from '@react-native-firebase/auth'
+
 import { Fonts } from '../../utils/styles/fonts'
 
 import loginStyle from './loginStyle'
@@ -14,6 +16,7 @@ import BottomWave from '../../components/bottomWave/BottomWave'
 import AuthActionButton from '../../components/authActionButton/AuthActionButton'
 import AuthSubmitButton from '../../components/authSubmitButton/AuthSubmitButton'
 import ErrorBlock from '../../components/errorBlock/ErrorBlock'
+import { AuthContext } from '../../context/Auth/AuthContext'
 
 const Login = ({navigation}) => {
 
@@ -21,6 +24,38 @@ const Login = ({navigation}) => {
     email: '',
     password: ''
   })
+  const [state, setState] = useContext(AuthContext)
+  const [error, setError] = useState('')
+
+  const handleLogin = async () => {
+    try {
+      setState({...state, isFetching: true})
+      if(data.email && data.password){
+        await AuthAPI().signInWithEmailAndPassword(data.email, data.password)
+        setState({...state, isFetching: false})
+      }
+      else{
+        setError('All the fields are required')
+        setState({...state, isFetching: false})
+      }
+    } catch (error) {
+      setState({...state, isFetching: false})
+      switch (error.code) {
+        case 'auth/invalid-email':
+          setError('Email is not valid')
+          break;
+        case 'auth/user-not-found':
+          setError('Email is not found')
+          break;
+        case 'auth/wrong-password':
+          setError('Password is not found')
+          break;
+        default:
+          setError(error.code)
+          break;
+      }
+    }
+  }
 
   return (
     <View style={loginStyle.loginBody}>
@@ -40,7 +75,7 @@ const Login = ({navigation}) => {
             </Text>
           </View>
           {/* ===================== LOGIN FORM ===================== */}
-          {/* <ErrorBlock message={'hh'}/> */}
+          {error ? <ErrorBlock message={error}/> : null}
           <View style={{ 
             display: 'flex',
             flexDirection: 'row',
@@ -89,6 +124,7 @@ const Login = ({navigation}) => {
               data={data}
               navigation={navigation}
               to='Welcome'
+              onPress={handleLogin}
             />
           </View>
           <AuthActionButton 

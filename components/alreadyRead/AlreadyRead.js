@@ -20,10 +20,8 @@ const AlreadyRead = ({navigation}) => {
 
   const fetchBooks = async () => {
     try {
-      setTimeout(() => {
-        setBooks(testBooks)
-        setIsFetching(false)
-      }, 1000)
+      setBooks(testBooks)
+      setIsFetching(false)
     } catch (error) {
       throw error
     }

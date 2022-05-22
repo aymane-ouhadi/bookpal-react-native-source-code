@@ -1,16 +1,22 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import headerStyle from './headerStyle'
 import Svg, { G, Path } from 'react-native-svg'
+import AuthAPI from '@react-native-firebase/auth'
 import { THEME_PRIMARY, THEME_SECONDARY_LIGHT } from '../../utils/constants/colors'
 
 const Header = () => {
+
+  const handleProfilePress = async () => {
+    await AuthAPI().signOut()
+  }
+
   return (
     <View style={headerStyle.body}>
       <Svg width={50} height={25} viewBox="0 0 351.000000 153.000000" preserveAspectRatio="xMidYMid meet">
         <G 
           transform="translate(0.000000,153.000000) scale(0.100000,-0.100000)"
-          fill={THEME_PRIMARY} 
+          fill={THEME_SECONDARY_LIGHT} 
           stroke="none"
         >
           <Path 
@@ -19,12 +25,15 @@ const Header = () => {
         </G>
       </Svg>
 
-      <View style={headerStyle.profileImageWrapper}>
+      <TouchableOpacity 
+        style={headerStyle.profileImageWrapper} 
+        onPress={handleProfilePress}
+      >
           <Image
             source={require('../../assets/images/avatar_female.png')}
             style={headerStyle.profileImage}
           />
-      </View>
+      </TouchableOpacity>
     </View>
   )
 }
