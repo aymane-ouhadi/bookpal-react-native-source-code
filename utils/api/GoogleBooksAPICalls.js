@@ -93,12 +93,27 @@ export const getMultipleBooksByISBN = async (...ISBN) => {
         }
     })
     const res = await Promise.all(promises_array)
-    return res.map(({data: {items}}) => ({
-        ...items[0],
-        volumeInfo: {
-            ...items[0].volumeInfo,
-            ISBN: getISBNFromLink(items[0].volumeInfo.previewLink)
+    // return res.map(({data: {items}}) => {
+    //     if(items){
+    //         return ({
+    //             ...items[0],
+    //             volumeInfo: {
+    //                 ...items[0].volumeInfo,
+    //                 ISBN: getISBNFromLink(items[0].volumeInfo.previewLink)
+    //             }
+    //         })
+    //     }
+    // })
+    return res.reduce((result, {data: {items}}) => {
+        if(items){
+           result.push({
+                ...items[0],
+                volumeInfo: {
+                    ...items[0].volumeInfo,
+                    ISBN: getISBNFromLink(items[0].volumeInfo.previewLink)
+                }
+           }) 
         }
-    }))
-    // return promises_array
+        return result
+    }, [])
 }
