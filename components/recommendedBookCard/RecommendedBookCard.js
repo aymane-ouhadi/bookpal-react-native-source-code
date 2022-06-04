@@ -7,24 +7,49 @@ import { TEXT_REVIEW } from '../../utils/constants/colors'
 import cutText from '../../utils/custom/cutText'
 
 import recommendedBookCardStyle from './recommendedBookCardStyle'
+import Images from '../../assets/images/images'
 
 const RecommendedBookCard = ({book, navigation}) => {
 
   const handlePress = () => {
     if(navigation?.navigate){
-      navigation.navigate('Book', {
+      navigation.push('Book', {
         book: book
       })
     }
   }
 
+  // return (
+  //   <TouchableWithoutFeedback onPress={handlePress}>
+  //     <View style={recommendedBookCardStyle.body}>
+  //       {/* <View style={recommendedBookCardStyle.bookImageWrapper}>
+  //           <Image
+  //             style={recommendedBookCardStyle.bookImage}
+  //             source={
+  //               book?.volumeInfo?.imageLinks?.thumbnail ?
+  //               { uri: (book?.volumeInfo?.imageLinks?.thumbnail || Images.empty_state.book )}
+  //               :
+  //               Images.empty_state.book 
+  //             }
+  //           />
+  //       </View> */}
+  //       <Text>Book</Text>
+  //     </View>
+  //   </TouchableWithoutFeedback>
+  // )
+  // ============================ PROBLEMATIC ONE
   return (
     <TouchableWithoutFeedback onPress={handlePress}>
       <View style={recommendedBookCardStyle.body}>
         <View style={recommendedBookCardStyle.bookImageWrapper}>
             <Image
               style={recommendedBookCardStyle.bookImage}
-              source={{ uri: book.volumeInfo.imageLinks.thumbnail }}
+              source={
+                book?.volumeInfo?.imageLinks?.thumbnail ?
+                { uri: (book?.volumeInfo?.imageLinks?.thumbnail || Images.empty_state.book )}
+                :
+                Images.empty_state.book 
+              }
             />
         </View>
         <View style={recommendedBookCardStyle.bookTitleWrapper}>
@@ -33,7 +58,7 @@ const RecommendedBookCard = ({book, navigation}) => {
               recommendedBookCardStyle.bookTitle
             ]}
             >
-              {cutText(book.volumeInfo.title, 16)}
+              {cutText(book?.volumeInfo?.title, 16)}
             </Text>
         </View>
         <View style={recommendedBookCardStyle.bookInfoWrapper}>
@@ -41,7 +66,8 @@ const RecommendedBookCard = ({book, navigation}) => {
               <Text style={[
                 Fonts.PoppinsRegular,
                 recommendedBookCardStyle.bookAuthor
-              ]}>by {cutText(book.volumeInfo.authors[0], 9)}</Text>
+              ]}> by {cutText(book?.volumeInfo?.authors[0] ? book.volumeInfo.authors[0] : null, 9, 'Unknown')}
+              </Text>
             </View>
             <View style={recommendedBookCardStyle.bookAvgRatingWrapper}>
               <AntDesign
@@ -53,13 +79,14 @@ const RecommendedBookCard = ({book, navigation}) => {
                 Fonts.PoppinsSemiBold,
                 recommendedBookCardStyle.bookAvgRating
               ]}>
-                {book.volumeInfo.averageRating}
+                {book?.volumeInfo?.averageRating ? book?.volumeInfo?.averageRating : 0}
               </Text>
             </View>
         </View> 
       </View>
     </TouchableWithoutFeedback>
   )
+
 }
 
 export default RecommendedBookCard

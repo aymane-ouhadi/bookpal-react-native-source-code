@@ -5,20 +5,24 @@ import {
     Pressable,
  } from 'react-native'
  import { Picker } from '@react-native-picker/picker';
- import React, { useState, useRef } from 'react'
+ import React, { useState, useRef, useContext } from 'react'
  import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
  import FontAwesome from 'react-native-vector-icons/FontAwesome'
  import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
  import Feather from 'react-native-vector-icons/Feather'
+ import AuthAPI from '@react-native-firebase/auth'
+ import { API_URL } from '../../utils/constants/backend'
  
  import { Fonts } from '../../utils/styles/fonts'
  import TopWave from '../../components/topWave/TopWave'
  import BottomWave from '../../components/bottomWave/BottomWave'
  import AuthActionButton from '../../components/authActionButton/AuthActionButton'
  import AuthSubmitButton from '../../components/authSubmitButton/AuthSubmitButton'
+ import ErrorBlock from '../../components/errorBlock/ErrorBlock';
+ import { AuthContext } from '../../context/Auth/AuthContext';
  
  import registerStyle from './registerStyle'
-import ErrorBlock from '../../components/errorBlock/ErrorBlock';
+import Axios from 'axios';
  
  const Register = ({navigation}) => {
 
@@ -30,8 +34,53 @@ import ErrorBlock from '../../components/errorBlock/ErrorBlock';
       password: '',
       confirmPassword: '', 
     })
+    const [error, setError] = useState('')
+    const [state, setState] = useContext(AuthContext)
 
     const pickerRef = useRef()
+
+    const handleRegisterPress = async () => {
+      try {
+        if(data.email && data.password){
+          if(data.password === data.confirmPassword && data.password){
+            setState({...state, isFetching: true})
+            const {user: {uid}} = await AuthAPI().createUserWithEmailAndPassword(data.email, data.password)
+            Axios.post(`${API_URL}/user/create/${uid}`, {
+              firstName: data.firstName,
+              lastName: data.lastName,
+              gender: data.gender,
+              birthday: "2008-09-15T15:53:00+05:00",
+              email: 'email',
+              password: 'pass'
+            })
+            setState({...state, isFetching: false})
+          }
+          else{
+            setData({...data, confirmPassword: ''})
+            setError('Passwords don\'t match')
+          }
+        }
+      } catch (error) {
+        switch (error.code) {
+          case 'auth/email-already-in-use':
+            setData({...data, email: ''})
+            setError('This email is already taken')
+            break;
+          case 'auth/invalid-email':
+            setData({...data, email: ''})
+            setError('This email is not valid')
+            break;
+          case 'auth/weak-password':
+            setData({...data, password: '', confirmPassword: ''})
+            setError('This password is weak')
+            break;
+          default:
+            setError(error.code)
+            break;
+        }
+        throw error
+      }
+    }
 
    return (
      <View style={registerStyle.loginBody}>
@@ -51,7 +100,7 @@ import ErrorBlock from '../../components/errorBlock/ErrorBlock';
              </Text>
            </View>
            {/* ===================== LOGIN FORM ===================== */}
-           {/* <ErrorBlock message={'hh'}/> */}
+           {error ? <ErrorBlock message={error}/> : null}
            <View style={{ 
              display: 'flex',
              flexDirection: 'row',
@@ -125,8 +174,8 @@ import ErrorBlock from '../../components/errorBlock/ErrorBlock';
                       setData({...data, gender: itemValue})
                     }>
                     <Picker.Item label="Select Gender"/>
-                    <Picker.Item label="Male" value="Male" />
-                    <Picker.Item label="Female" value="Female" />
+                    <Picker.Item label="male" value="male" />
+                    <Picker.Item label="female" value="female" />
                   </Picker>
                  <View style={{ 
                    borderBottomWidth: 1, 
@@ -190,6 +239,7 @@ import ErrorBlock from '../../components/errorBlock/ErrorBlock';
               navigation={navigation}
               data={data}
               to='Login'
+              onPress={handleRegisterPress}
               />
            </View>
            <AuthActionButton 

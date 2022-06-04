@@ -1,24 +1,45 @@
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
-import reviewFormStyle from './reviewFormStyle'
 import { Fonts } from '../../utils/styles/fonts'
 import { TEXT_PRIMARY } from '../../utils/constants/colors'
+import Axios from 'axios'
+import { API_URL } from '../../utils/constants/backend'
+import { AuthContext } from '../../context/Auth/AuthContext'
 
-const ReviewForm = ({ addReview }) => {
+import reviewFormStyle from './reviewFormStyle'
 
-    const [content, setContent] = useState('')    
+const ReviewForm = ({ bookISBN, addReview }) => {
 
-    const handleSubmit = () => {
+    const [content, setContent] = useState('')  
+    const [state, setState] = useContext(AuthContext) 
+
+    //Header object for the Axios Request
+    const headers = {
+        'Authorization': `Bearer ${state.idToken}`
+    }
+
+    const handleSubmit = async () => {
         if(content !== ''){
-            addReview({
-                uid: '7DhCIsnAJZUWmAjy4SaCFHZQpLQ2',
-                isbn: 'test_isbn',
-                content: content.trim(),
-                createdAt: Date.now()
-            })
-            setContent('')
+            try {
+                await Axios.post(`${API_URL}/review/create`, 
+                {
+                    isbn: bookISBN,
+                    content: content.trim(),
+                },
+                {headers: headers}
+                )
+                addReview({
+                    uid: '7DhCIsnAJZUWmAjy4SaCFHZQpLQ2',
+                    isbn: 'test_isbn',
+                    content: content.trim(),
+                    createdAt: Date.now()
+                })
+                setContent('')
+            } catch (error) {
+                throw error
+            }
         }
     }
 

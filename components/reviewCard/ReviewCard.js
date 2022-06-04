@@ -8,8 +8,6 @@ import reviewCardStyle from './reviewCardStyle'
 
 const ReviewCard = ({review}) => {
   
-    const myDate = new Date(review.createdAt)
-  
     return (
     <View style={reviewCardStyle.body}>
         <View>
@@ -26,13 +24,13 @@ const ReviewCard = ({review}) => {
                     Fonts.PoppinsSemiBold,
                     reviewCardStyle.name
                 ]}>
-                    Name
+                    {}
                 </Text>
                 <Text style={[
                     Fonts.PoppinsRegular,
                     reviewCardStyle.createdAt
                 ]}>
-                   {review.createdAt}
+                   {moment(review.createdAt).fromNow()}
                    {/* {myDate.getDay()} */}
                 </Text>
             </View>

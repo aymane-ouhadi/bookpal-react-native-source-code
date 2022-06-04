@@ -1,24 +1,36 @@
 import { ScrollView, View } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 // import { useFocusEffect } from '@react-navigation/native';
 
-import { getBookByISBN } from '../../utils/api/GoogleBooksAPICalls';
+import { getBookByISBN, getMultipleBooksByISBN } from '../../utils/api/GoogleBooksAPICalls';
 import { testBooks } from '../../utils/constants/tests'
 import Images from '../../assets/images/images'
 import RecommendedBookCard from '../recommendedBookCard/RecommendedBookCard'
 import RecommendedBookSkeleton from '../recommendedBookSkeleton/RecommendedBookSkeleton'
 import SubHeader from '../subHeader/SubHeader'
 import EmptyState from '../emptyState/EmptyState'
+import { AuthContext } from '../../context/Auth/AuthContext';
+import { API_URL } from '../../utils/constants/backend';
+import Axios from 'axios';
 
 
 const BooksForYou = ({navigation}) => {
 
   const [books, setBooks] = useState([])
   const [isFetching, setIsFetching] = useState(true)
+  const [{user}, setState] = useContext(AuthContext)
   
   const fetchBooks = async () => {
     try {
-      setBooks(testBooks)
+      const {data: {recommendations}} = await Axios.post(
+        `${API_URL}/book/array/get`,
+        { 
+          items: user?.favorites
+        }
+      )
+      // setBooks(await getMultipleBooksByISBN(...recommendations))
+      console.log('Favorites: ', user?.favorites)
+      setBooks(await getMultipleBooksByISBN(...(recommendations.length > 4 ? recommendations.slice(0, 4) : recommendations)))
       setIsFetching(false)
     } catch (error) {
       throw error

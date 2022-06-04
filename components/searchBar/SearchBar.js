@@ -18,6 +18,10 @@ import { Fonts } from '../../utils/styles/fonts'
 import searchBarStyle from './searchBarStyle'
 import Svg, { G, Path } from 'react-native-svg';
 import { THEME_PRIMARY } from '../../utils/constants/colors';
+import Axios from 'axios';
+import { API_URL } from '../../utils/constants/backend';
+import { getMultipleBooksByISBN } from '../../utils/api/GoogleBooksAPICalls';
+import { testBooks } from '../../utils/constants/tests';
 
 //Window Size
 const width = Dimensions.get('window').width
@@ -30,7 +34,7 @@ const _content_translate_y = new Value(height)
 const _content_opacity = new Value(0)
 
 
-const SearchBar = ({setInput, isFetching}) => {
+const SearchBar = ({setInput, isFetching, setBooks}) => {
   
   //Setting the ref
   const textInputRef = useRef({})
@@ -109,11 +113,20 @@ const SearchBar = ({setInput, isFetching}) => {
     if(textInputRef.current.blur()) textInputRef.current.blur()
   }
   //Handling text change
-  const handleTextChange = (value) => {
-    setInput(value)
-    if(value){
-      isFetching(true)
-      setTimeout(() => isFetching(false), 1000)
+  const handleTextChange = async (value) => {
+    try {
+      setInput(value)
+      if(value){
+        isFetching(true)
+        const {data: {data}} = await Axios.get(`${API_URL}/book/?search=${value}`)
+        // const {data: {data}} = await Axios.get(`${API_URL}/book/?search=${value}`)
+        // const books_array = await getMultipleBooksByISBN(...data)
+        console.log('Data Length: ', data.length)
+        setBooks(testBooks)
+        isFetching(false)
+      }
+    } catch (error) {
+      console.log(error.response.data)
     }
   }
     

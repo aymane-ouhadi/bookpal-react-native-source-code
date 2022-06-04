@@ -22,14 +22,11 @@ const Search = ({navigation}) => {
 
   const renderItem = ({item}) => <SmallBookCard book={item} navigation={navigation}/>
 
-  useEffect(() => {
-    setBooks(testBooks)
-  }, [input])
-
   return (
     <View style={searchStyle.body}>
       <SearchBar 
         isFetching={(fetchingStatus) => setIsFetching(fetchingStatus)}
+        setBooks={(booksFound) => setBooks(booksFound) }
         setInput={(input) => setInput(input)}
       />
       {

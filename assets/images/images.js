@@ -1,6 +1,6 @@
 export default Images = {
     avatar: {
-        // male: require('./avatar_female.png'),
+        male: require('./avatar_male.png'),
         female: require('./avatar_female.png'),
     },
     placehoder: {
@@ -12,5 +12,6 @@ export default Images = {
         search: require('./empty_search.png'),
         read_later: require('./empty_read_later.png'),
         favorites: require('./empty_favorites.png'),
+        book: require('./no_book_image.jpg')
     }
 }

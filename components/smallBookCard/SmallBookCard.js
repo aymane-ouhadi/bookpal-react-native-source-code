@@ -6,6 +6,7 @@ import Category from '../category/Category'
 import cutText from '../../utils/custom/cutText'
 
 import smallBookCardStyle from './smallBookCardStyle'
+import Images from '../../assets/images/images'
 
 const SmallBookCard = ({navigation, book}) => {
 
@@ -21,9 +22,12 @@ const SmallBookCard = ({navigation, book}) => {
         <View style={smallBookCardStyle.smallBookCardLeft}>
           <Image
             style={smallBookCardStyle.bookImage}
-            source={{ 
-              uri: book.volumeInfo.imageLinks.thumbnail 
-            }}
+            source={
+              book?.volumeInfo?.imageLinks?.thumbnail ?
+              { uri: (book?.volumeInfo?.imageLinks?.thumbnail || Images.empty_state.book )}
+              :
+              Images.empty_state.book
+            }
           />
         </View>
         <View style={smallBookCardStyle.smallBookCardMiddle}>
@@ -32,13 +36,13 @@ const SmallBookCard = ({navigation, book}) => {
               Fonts.PoppinsSemiBold,
               smallBookCardStyle.bookTitle
             ]}>
-              {cutText(book.volumeInfo.title, 10)}
+              {cutText(book?.volumeInfo?.title, 10)}
             </Text>
             <Text style={[
               Fonts.PoppinsRegular,
               smallBookCardStyle.bookAuthor
             ]}>
-              by {cutText(book.volumeInfo.authors[0], 7)}
+              by {cutText(book?.volumeInfo?.authors[0], 7)}
             </Text>
           </View>
           <View>
@@ -48,7 +52,7 @@ const SmallBookCard = ({navigation, book}) => {
             Fonts.PoppinsRegular,
             smallBookCardStyle.bookDescription
           ]}>
-            {cutText(book.volumeInfo.description, 105)}
+            {cutText(book?.volumeInfo?.description, 105)}
           </Text>
         </View>
         {/* <View style={smallBookCardStyle.smallBookCardRight}>

@@ -7,6 +7,7 @@ import React, { useState, useContext } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import Feather from 'react-native-vector-icons/Feather'
 import AuthAPI from '@react-native-firebase/auth'
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
 
 import { Fonts } from '../../utils/styles/fonts'
 
@@ -48,11 +49,43 @@ const Login = ({navigation}) => {
           setError('Email is not found')
           break;
         case 'auth/wrong-password':
-          setError('Password is not found')
+          setError('Wrong password')
           break;
         default:
           setError(error.code)
           break;
+      }
+    }
+  }
+
+  // const handleGoogleButtonPress = async () => {
+  //   try {
+  //     // Get the users ID token
+  //     const { idToken } = await GoogleSignin.signIn()
+
+  //     // Create a Google credential with the token
+  //     const googleCredential = AuthAPI.GoogleAuthProvider.credential(idToken);
+
+  //     // Sign-in the user with the credential
+  //     return AuthAPI().signInWithCredential(googleCredential);
+  //   } catch (error) {
+  //     setError('Something went wrong during Google Authentication')
+  //     console.log(error)
+  //   }
+  // }
+
+  const handleGoogleButtonPress = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      setState({...state, user: userInfo})
+    } catch (error) {
+      if (error.code === statusCodes.IN_PROGRESS) {
+        setError('Signing In Is Already In Progress')
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        setError('Play Services Is Not Available Or Outdated')
+      } else {
+        setError(error.code)
       }
     }
   }
@@ -129,7 +162,9 @@ const Login = ({navigation}) => {
           </View>
           <AuthActionButton 
             title={'Sign in with Google'} 
-            iconName='google'/>
+            iconName='google'
+            onPress={handleGoogleButtonPress}
+            />
           <AuthActionButton 
             title={'Register'} 
             navigation={navigation}

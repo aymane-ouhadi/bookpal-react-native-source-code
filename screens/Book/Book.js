@@ -1,8 +1,9 @@
 import { View, ScrollView, Text, Image, TouchableOpacity } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import AuthAPI from '@react-native-firebase/auth'
 
 import { Fonts } from '../../utils/styles/fonts'
 
@@ -15,49 +16,194 @@ import nFormatter from '../../utils/custom/nFormatter'
 import ReviewForm from '../../components/reviewsForm/ReviewForm'
 import ReviewsList from '../../components/reviewsList/ReviewsList'
 import RecommendedBookCard from '../../components/recommendedBookCard/RecommendedBookCard'
+import { AuthContext } from '../../context/Auth/AuthContext'
+import Axios from 'axios'
+import { API_URL } from '../../utils/constants/backend'
+import { getMultipleBooksByISBN } from '../../utils/api/GoogleBooksAPICalls'
+import Images from '../../assets/images/images'
+import RecommendedBookSkeleton from '../../components/recommendedBookSkeleton/RecommendedBookSkeleton'
 
 const Book = ({navigation, route}) => {
   
+  
+  //Initializing states
+  const [reviews, setReviews] = useState([])
+  const [state, setState] = useContext(AuthContext)
+  const [similarBooks, setSimilarBooks] = useState([])
+  const [isFetchingSimilarBooks, setIsFetchingSimilarBooks] = useState(true)
+  const [isFetchingReviews, setIsFetchingReviews] = useState(true)
+  const [workingOnIt, setWorkingOnIt] = useState(false)
+  
+  //Book object
   const {book} = route.params
 
-  const [reviews, setReviews] = useState([])
-  const [isInFavorites, setIsInFavorites] = useState(false)
-  const [isInReadLater, setIsInReadLater] = useState(false)
+  //Header object for the Axios Request
+  const headers = {
+    'Authorization': `Bearer ${state.idToken}`
+  }
+
+  //Fetching functions
+  const fetchReviews = async () => {
+      try {
+        const {data: {reviews}} = await Axios.get(`${API_URL}/book/${book.volumeInfo.ISBN}`)
+        setReviews(reviews)
+        setIsFetchingReviews(false)
+      } catch (error) {
+        throw error
+      }
+  }
+
+  const fetchReadingLists = async () => {
+    try {
+      const {data: {readingLists: readLaterList}} = await Axios.get(`${API_URL}/user/readingLists?isRead=false`, {
+        headers: headers
+      })
+      setState({...state, readLaterList})
+      const {data: {readingLists: alreadyReadList}} = await Axios.get(`${API_URL}/user/readingLists?isRead=true`, {
+        headers: headers
+      })
+      setState({...state, alreadyReadList})
+    } catch (error) {
+      throw error
+    }
+  }
+
+  const fetchSimilarBooks = async () => {
+    try {
+      const {data: {recommendations}} = await Axios.post(
+        `${API_URL}/book/array/get`,
+        { 
+          items: [book.volumeInfo.ISBN]
+        }
+      )
+      console.log(recommendations)
+      const books_array = await getMultipleBooksByISBN(...recommendations)
+      setSimilarBooks(books_array)
+      setIsFetchingSimilarBooks(false)
+    } catch (error) {
+      throw error
+    }
+  }
+  
+  //Handling Toggles
+  const handleFavoriteToggle = async () => {
+    try {
+      setWorkingOnIt(true)
+      setState({
+        ...state, 
+        user: {
+          favorites: state.user?.favorites.includes(book.volumeInfo.ISBN) ?
+            state.user?.favorites.filter((isbn) => isbn !== book.volumeInfo.ISBN)
+          :
+            [...state.user?.favorites, book.volumeInfo.ISBN]
+
+        }
+      })
+      await Axios.post(
+        `${API_URL}/user/toggleFavorite`,
+        { isbn:  book.volumeInfo.ISBN },
+        { headers: headers }
+      )
+      setWorkingOnIt(false)
+    } catch (error) {
+      console.log('Error favorite')
+    }
+  }
+
+  const handleReadLaterToggle = async () => {
+    try {
+      setWorkingOnIt(true)
+      setState({
+        ...state, 
+        readLaterList: 
+          state?.readLaterList.includes(book.volumeInfo.ISBN) ?
+            state?.readLaterList.filter((isbn) => isbn !== book.volumeInfo.ISBN)
+          :
+            [...state?.readLaterList, book.volumeInfo.ISBN]
+      })
+      if(state?.readLaterList.includes((book.volumeInfo.ISBN))){
+        //Removing the book from the reading lists
+        await Axios.post(
+          `${API_URL}/user/manageReadingLists`,
+          {
+            isbn: book.volumeInfo.ISBN,
+            isRead: false,
+            currentIsRead: false,
+            delete: true
+          },
+          {
+            headers: headers
+          }
+        )
+      }
+      else{
+        //Adding the book to the reading lists
+        await Axios.post(
+          `${API_URL}/user/manageReadingLists`,
+          {
+            isbn: book.volumeInfo.ISBN,
+            isRead: false
+          },
+          {
+            headers: headers
+          }
+        )
+      }
+      setWorkingOnIt(false)
+    } catch (error) {
+      console.log('Error readlater')
+    }
+  }
+
+  const handleAlreadyReadToggle = async () => {
+    try {
+      setWorkingOnIt(true)
+      setWorkingOnIt(false)
+    } catch (error) {
+      console.log('Error already read')
+    }
+  }
+
+  //Skeleton component
+  const SkeletonList = () => (
+    Array(3).fill(null).map((_, index) => <RecommendedBookSkeleton key={index}/>)
+  )
 
   useEffect(() => {
-      const fetchReviews = async () => {
-          try {
-              setReviews(testReviews)
-          } catch (error) {
-              throw error
-          }
-      }
+      fetchSimilarBooks()
+      fetchReadingLists()
       fetchReviews()
   }, [])
 
-  const handleFavoriteToggle = () => {
-    setIsInFavorites((oldState) => !oldState)
-  }
-
-  const handleReadLaterToggle = () => {
-    setIsInReadLater((oldState) => !oldState)
-  }
 
   return (
     <ScrollView style={bookStyle.body} showsVerticalScrollIndicator={false}>
+      {/* ===================== BOOK COVER BACKGROUND ===================== */}
       <View style={bookStyle.bookCoverBackGroundWrapper}>
         <Image 
           style={bookStyle.bookCoverBackGround}
-          source={{ uri: book.volumeInfo.imageLinks.thumbnail }}
+          source={
+            book?.volumeInfo?.imageLinks?.thumbnail ?
+            { uri: book?.volumeInfo?.imageLinks?.thumbnail }
+            :
+            Images.empty_state.book
+          }
           blurRadius={6}
         />
       </View>
+      {/* ===================== BOOK COVER ===================== */}
       <View style={bookStyle.bookCoverWrapper}>
         <Image 
           style={bookStyle.bookCover}
-          source={{ uri: book.volumeInfo.imageLinks.thumbnail }}
+          source={
+            book?.volumeInfo?.imageLinks?.thumbnail ?
+            { uri: book?.volumeInfo?.imageLinks?.thumbnail }
+            :
+            Images.empty_state.book
+          }
         />
       </View>
+      {/* ===================== TOP INFO ===================== */}
       <View style={bookStyle.topInfo}>
         <Text style={[
           Fonts.PoppinsBold,
@@ -101,32 +247,58 @@ const Book = ({navigation, route}) => {
           </Text>
         </View>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <TouchableOpacity style={isInFavorites ? bookStyle.actionWrapperHighlighted : bookStyle.actionWrapper} onPress={handleFavoriteToggle}>
+          <TouchableOpacity 
+            style={state.user?.favorites.includes(book.volumeInfo.ISBN) ? bookStyle.actionWrapperHighlighted : bookStyle.actionWrapper} 
+            onPress={handleFavoriteToggle}
+            disabled={workingOnIt}
+          >
             <AntDesign
               name='hearto'
               size={14}
               style={{ marginRight: 7 }}
-              color={isInFavorites ? '#fff' : THEME_SECONDARY_LIGHT}
+              color={state.user?.favorites.includes(book.volumeInfo.ISBN) ? '#fff' : THEME_SECONDARY_LIGHT}
             />
             <Text style={[
               Fonts.PoppinsRegular,
-              isInFavorites ? bookStyle.actionHighlighted : bookStyle.action
+              state.user?.favorites.includes(book.volumeInfo.ISBN) ? bookStyle.actionHighlighted : bookStyle.action
             ]}>
-              {isInFavorites ? 'Remove From Favorites' : 'Add To Favorites'}
+              {state.user?.favorites.includes(book.volumeInfo.ISBN) ? 'Remove From Favorites' : 'Add To Favorites'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity style={isInReadLater ? bookStyle.actionWrapperHighlighted : bookStyle.actionWrapper} onPress={handleReadLaterToggle}>
+          <TouchableOpacity 
+            style={state?.alreadyReadList.includes(book.volumeInfo.ISBN) ? bookStyle.actionWrapperHighlighted : bookStyle.actionWrapper} 
+            onPress={handleAlreadyReadToggle}
+            disabled={workingOnIt}
+          >
+            <AntDesign
+              name='checkcircleo'
+              size={14}
+              style={{ marginRight: 7 }}
+              color={state?.alreadyReadList.includes(book.volumeInfo.ISBN) ? '#fff' : THEME_SECONDARY_LIGHT}
+            />
+            <Text style={[
+              Fonts.PoppinsRegular,
+              state?.alreadyReadList.includes(book.volumeInfo.ISBN) ? bookStyle.actionHighlighted : bookStyle.action
+            ]}>
+              {state?.alreadyReadList.includes(book.volumeInfo.ISBN) ? 'Remove From Already Read' : 'Already Read'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={state?.readLaterList.includes(book.volumeInfo.ISBN) ? bookStyle.actionWrapperHighlighted : bookStyle.actionWrapper} 
+            onPress={handleReadLaterToggle}
+            disabled={workingOnIt}
+          >
             <AntDesign
               name='clockcircleo'
               size={14}
               style={{ marginRight: 7 }}
-              color={isInReadLater ? '#fff' : THEME_SECONDARY_LIGHT}
+              color={state?.readLaterList.includes(book.volumeInfo.ISBN) ? '#fff' : THEME_SECONDARY_LIGHT}
             />
             <Text style={[
               Fonts.PoppinsRegular,
-              isInReadLater ? bookStyle.actionHighlighted : bookStyle.action
+              state?.readLaterList.includes(book.volumeInfo.ISBN) ? bookStyle.actionHighlighted : bookStyle.action
             ]}>
-              {isInReadLater ? 'Remove From Read Later' : 'Read Later'}
+              {state?.readLaterList.includes(book.volumeInfo.ISBN) ? 'Remove From Read Later' : 'Read Later'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -235,6 +407,7 @@ const Book = ({navigation, route}) => {
           ]}>{book.volumeInfo.language.toUpperCase()}</Text>
         </View>
       </View>
+      {/* ===================== SIMILAR BOOKS ===================== */}
       <View style={{ marginBottom: 15 }}>
         <Text style={[
           Fonts.PoppinsBold,
@@ -252,12 +425,16 @@ const Book = ({navigation, route}) => {
           showsHorizontalScrollIndicator={false}
         >
           {
-            testBooks.map((book, index) => (
-              <RecommendedBookCard key={index} book={book} navigation={navigation}/>
+            isFetchingSimilarBooks?
+            <SkeletonList />
+            :
+            similarBooks.map((book) => (
+              <RecommendedBookCard key={book.id} book={book} navigation={navigation}/>
             )) 
           }
         </ScrollView>
       </View>
+      {/* ===================== REVIEWS ===================== */}
       <View>
         <Text style={[
           bookStyle.bookHeader,
@@ -265,8 +442,8 @@ const Book = ({navigation, route}) => {
         ]}>
           Reviews
         </Text>
-        <ReviewForm addReview={(review) => { setReviews((oldReviews) => [review, ...oldReviews]) } }/>
-        <ReviewsList reviews={reviews}/>
+        <ReviewForm bookISBN={book.volumeInfo.ISBN} addReview={(review) => { setReviews((oldReviews) => [review, ...oldReviews]) } }/>
+        <ReviewsList reviews={reviews} isFetching={isFetchingReviews}/>
       </View>
     </ScrollView>
   )

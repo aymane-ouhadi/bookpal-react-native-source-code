@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 
 import Header from '../../components/header/Header'
 import SubHeader from '../../components/subHeader/SubHeader'
@@ -10,21 +10,25 @@ import SmallBookCard from '../../components/smallBookCard/SmallBookCard'
 import SmallBookSkeleton from '../../components/smallBookSkeleton/SmallBookSkeleton'
 import EmptyState from '../../components/emptyState/EmptyState'
 import Images from '../../assets/images/images'
+import { AuthContext } from '../../context/Auth/AuthContext'
+import { getMultipleBooksByISBN } from '../../utils/api/GoogleBooksAPICalls'
 
 
 const Favorites = ({navigation}) => {
   
   const renderItem = ({item}) => <SmallBookCard book={item} navigation={navigation}/>
 
+  //Initializing the states
   const [books, setBooks] = useState([])
   const [isFetching, setIsFetching] = useState(true)
+  const [{user}, setState] = useContext(AuthContext)
 
+  //Book fetching function
   const fetchBooks = async () => {
     try {
-      setTimeout(() => {
-        setBooks(testBooks)
-        setIsFetching(false)
-      }, 1000)
+      const books_array = await getMultipleBooksByISBN(...user?.favorites)
+      setBooks(books_array)
+      setIsFetching(false)
     } catch (error) {
       throw error
     }
@@ -35,8 +39,8 @@ const Favorites = ({navigation}) => {
   }, [])
 
   const SkeletonList = () => (
-    testBooks.map((_) => (
-      <SmallBookSkeleton />
+    Array(4).fill(0).map((_, index) => (
+      <SmallBookSkeleton key={index} />
     ))
   )
 
@@ -50,9 +54,9 @@ const Favorites = ({navigation}) => {
         :
           books.length ?
             <FlatList
-              data={testBooks}
+              data={books}
               renderItem={renderItem}
-              keyExtractor = { item => item.id + Math.floor(Math.random() * (100 - 1 + 1) + 1)}
+              keyExtractor = { item => item.id }
               showsVerticalScrollIndicator={false}
             />
           :

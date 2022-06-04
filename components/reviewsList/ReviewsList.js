@@ -1,17 +1,27 @@
-import { View } from 'react-native'
+import { View, ActivityIndicator } from 'react-native'
 import React from 'react'
 
 import ReviewCard from '../reviewCard/ReviewCard'
+import { TEXT_PRIMARY } from '../../utils/constants/colors'
 
-const ReviewsList = ({reviews}) => {
+const ReviewsList = ({reviews, isFetching}) => {
 
     const renderItem = ({item}) => <ReviewCard book={item}/>
 
     return (
     <View>
-        {reviews.map((review, index) => (
-            <ReviewCard key={index} review={review}/>
-        ))}
+        {
+            isFetching 
+            ?
+                <ActivityIndicator 
+                    color={TEXT_PRIMARY}
+                    size={40}
+                />
+            :
+                reviews.map((review, index) => (
+                    <ReviewCard key={index} review={review}/>
+                ))
+        }
     </View>
     )
 }

@@ -5,7 +5,7 @@ import { Fonts } from '../../utils/styles/fonts'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 import { THEME_PRIMARY } from '../../utils/constants/colors'
 
-const AuthActionButton = ({title, iconName, navigation, to}) => {
+const AuthActionButton = ({title, iconName, navigation, to, onPress}) => {
   
   const handlePress = () => {
     if(navigation){
@@ -16,7 +16,7 @@ const AuthActionButton = ({title, iconName, navigation, to}) => {
   return (
     <TouchableOpacity 
       style={authActionButtonStyle.loginRegisterWrapper}
-      onPress={handlePress}
+      onPress={onPress || handlePress}
     >
         {
           iconName

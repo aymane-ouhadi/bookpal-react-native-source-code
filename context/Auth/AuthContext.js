@@ -1,7 +1,10 @@
 import React, { createContext, useState } from 'react'
 
 const INITIAL_STATE = {
+    idToken: null,
     user: null,
+    alreadyReadList: [],
+    readLaterList: [],
     isFetching: false,
     error: false
 }

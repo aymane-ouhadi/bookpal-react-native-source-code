@@ -1,11 +1,16 @@
 import { View, Text, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import headerStyle from './headerStyle'
 import Svg, { G, Path } from 'react-native-svg'
 import AuthAPI from '@react-native-firebase/auth'
 import { THEME_PRIMARY, THEME_SECONDARY_LIGHT } from '../../utils/constants/colors'
+import { AuthContext } from '../../context/Auth/AuthContext'
+import images from '../../assets/images/images'
 
 const Header = () => {
+
+  //Initializing the states
+  const [{user}, setState] = useContext(AuthContext)
 
   const handleProfilePress = async () => {
     await AuthAPI().signOut()
@@ -30,7 +35,7 @@ const Header = () => {
         onPress={handleProfilePress}
       >
           <Image
-            source={require('../../assets/images/avatar_female.png')}
+            source={user?.gender === 'male' ? images.avatar.male : images.avatar.female}
             style={headerStyle.profileImage}
           />
       </TouchableOpacity>
