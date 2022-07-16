@@ -5,6 +5,8 @@ export default Images = {
     },
     placehoder: {
         search: require('./search_placeholder.png'),
+        logo: require('./bookpal_logo.png'),
+        icon: require('./bookpal_icon.png'),
     },
     empty_state: {
         recommendations: require('./empty_books_for_you.png'),

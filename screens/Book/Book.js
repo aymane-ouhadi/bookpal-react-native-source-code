@@ -32,6 +32,7 @@ const Book = ({navigation, route}) => {
   const [similarBooks, setSimilarBooks] = useState([])
   const [isFetchingSimilarBooks, setIsFetchingSimilarBooks] = useState(true)
   const [isFetchingReviews, setIsFetchingReviews] = useState(true)
+  const [isDisabled, setIsDisabled] = useState(true)
   const [workingOnIt, setWorkingOnIt] = useState(false)
   
   //Book object
@@ -80,6 +81,7 @@ const Book = ({navigation, route}) => {
       const books_array = await getMultipleBooksByISBN(...recommendations)
       setSimilarBooks(books_array)
       setIsFetchingSimilarBooks(false)
+      setIsDisabled(false)
     } catch (error) {
       throw error
     }
@@ -250,7 +252,7 @@ const Book = ({navigation, route}) => {
           <TouchableOpacity 
             style={state.user?.favorites.includes(book.volumeInfo.ISBN) ? bookStyle.actionWrapperHighlighted : bookStyle.actionWrapper} 
             onPress={handleFavoriteToggle}
-            disabled={workingOnIt}
+            disabled={workingOnIt || isDisabled}
           >
             <AntDesign
               name='hearto'
@@ -268,7 +270,7 @@ const Book = ({navigation, route}) => {
           <TouchableOpacity 
             style={state?.alreadyReadList.includes(book.volumeInfo.ISBN) ? bookStyle.actionWrapperHighlighted : bookStyle.actionWrapper} 
             onPress={handleAlreadyReadToggle}
-            disabled={workingOnIt}
+            disabled={workingOnIt || isDisabled}
           >
             <AntDesign
               name='checkcircleo'
@@ -286,7 +288,7 @@ const Book = ({navigation, route}) => {
           <TouchableOpacity 
             style={state?.readLaterList.includes(book.volumeInfo.ISBN) ? bookStyle.actionWrapperHighlighted : bookStyle.actionWrapper} 
             onPress={handleReadLaterToggle}
-            disabled={workingOnIt}
+            disabled={workingOnIt || isDisabled}
           >
             <AntDesign
               name='clockcircleo'

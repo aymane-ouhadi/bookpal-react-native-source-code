@@ -30,7 +30,7 @@ const Search = ({navigation}) => {
         setInput={(input) => setInput(input)}
       />
       {
-        input 
+        (input && input.length >= 3 ) 
         ?
           !isFetching
           ?

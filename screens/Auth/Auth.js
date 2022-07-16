@@ -9,6 +9,7 @@ import BottomTabNavigator from '../../components/bottomTab/BottomTabNavigator'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import Axios from 'axios'
 import { API_URL } from '../../utils/constants/backend'
+import SplashScreen from '../Splash/SplashScreen'
 
 const Auth = () => {
 
@@ -81,9 +82,7 @@ const Auth = () => {
 
   if(initializing)
     return (
-      <View>
-        <Text>Loading ...</Text>
-      </View>
+      <SplashScreen />
     )
 
   return (

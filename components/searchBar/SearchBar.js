@@ -116,13 +116,13 @@ const SearchBar = ({setInput, isFetching, setBooks}) => {
   const handleTextChange = async (value) => {
     try {
       setInput(value)
-      if(value){
+      if(value.length >= 3){
         isFetching(true)
         const {data: {data}} = await Axios.get(`${API_URL}/book/?search=${value}`)
         // const {data: {data}} = await Axios.get(`${API_URL}/book/?search=${value}`)
-        // const books_array = await getMultipleBooksByISBN(...data)
+        const books_array = await getMultipleBooksByISBN(...(data.slice(0, 10)))
         console.log('Data Length: ', data.length)
-        setBooks(testBooks)
+        setBooks(books_array)
         isFetching(false)
       }
     } catch (error) {
